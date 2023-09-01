@@ -4,11 +4,12 @@
  */
 package com.Eletronics.view;
 
+import com.Eletronics.model.Customer;
+import com.Eletronics.services.PasswordGenerator;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.Random;
 import javax.swing.JPanel;
 
 /**
@@ -52,28 +53,29 @@ public class CustomerRegister extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        NameField = new javax.swing.JTextField();
+        nameField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         BackButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         RegisterButton = new javax.swing.JButton();
         jPanel1 = new jPanelGradient();
         logoSide = new javax.swing.JLabel();
-        UserField = new javax.swing.JTextField();
-        EmailField = new javax.swing.JTextField();
-        PasswordField = new javax.swing.JTextField();
+        userIdField = new javax.swing.JTextField();
+        emailField = new javax.swing.JTextField();
+        passwordField = new javax.swing.JTextField();
         Generator = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
-        NameField.setBackground(new java.awt.Color(255, 255, 255));
-        NameField.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        NameField.setForeground(new java.awt.Color(0, 0, 0));
-        NameField.setToolTipText("");
-        NameField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "nome:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
-        NameField.addActionListener(new java.awt.event.ActionListener() {
+        nameField.setBackground(new java.awt.Color(255, 255, 255));
+        nameField.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        nameField.setForeground(new java.awt.Color(0, 0, 0));
+        nameField.setToolTipText("");
+        nameField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "nome:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
+        nameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NameFieldActionPerformed(evt);
+                nameFieldActionPerformed(evt);
             }
         });
 
@@ -122,36 +124,36 @@ public class CustomerRegister extends javax.swing.JFrame {
                 .addGap(152, 152, 152))
         );
 
-        UserField.setBackground(new java.awt.Color(255, 255, 255));
-        UserField.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        UserField.setForeground(new java.awt.Color(0, 0, 0));
-        UserField.setToolTipText("");
-        UserField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "usuário:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
-        UserField.addActionListener(new java.awt.event.ActionListener() {
+        userIdField.setBackground(new java.awt.Color(255, 255, 255));
+        userIdField.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        userIdField.setForeground(new java.awt.Color(0, 0, 0));
+        userIdField.setToolTipText("");
+        userIdField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "usuário:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
+        userIdField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UserFieldActionPerformed(evt);
+                userIdFieldActionPerformed(evt);
             }
         });
 
-        EmailField.setBackground(new java.awt.Color(255, 255, 255));
-        EmailField.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        EmailField.setForeground(new java.awt.Color(0, 0, 0));
-        EmailField.setToolTipText("");
-        EmailField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "email:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
-        EmailField.addActionListener(new java.awt.event.ActionListener() {
+        emailField.setBackground(new java.awt.Color(255, 255, 255));
+        emailField.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        emailField.setForeground(new java.awt.Color(0, 0, 0));
+        emailField.setToolTipText("");
+        emailField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "CPF:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
+        emailField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EmailFieldActionPerformed(evt);
+                emailFieldActionPerformed(evt);
             }
         });
 
-        PasswordField.setBackground(new java.awt.Color(255, 255, 255));
-        PasswordField.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        PasswordField.setForeground(new java.awt.Color(0, 0, 0));
-        PasswordField.setToolTipText("");
-        PasswordField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "senha:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
-        PasswordField.addActionListener(new java.awt.event.ActionListener() {
+        passwordField.setBackground(new java.awt.Color(255, 255, 255));
+        passwordField.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        passwordField.setForeground(new java.awt.Color(0, 0, 0));
+        passwordField.setToolTipText("");
+        passwordField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "senha:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
+        passwordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PasswordFieldActionPerformed(evt);
+                passwordFieldActionPerformed(evt);
             }
         });
 
@@ -178,16 +180,16 @@ public class CustomerRegister extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(6, 6, 6)
                         .addComponent(jLabel2))
-                    .addComponent(NameField, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(UserField, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(EmailField, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(BackButton)
                                 .addGap(12, 12, 12)
                                 .addComponent(RegisterButton))
-                            .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Generator, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)))
                 .addContainerGap(123, Short.MAX_VALUE))
@@ -203,15 +205,15 @@ public class CustomerRegister extends javax.swing.JFrame {
                         .addGap(21, 21, 21)
                         .addComponent(jLabel2)))
                 .addGap(6, 6, 6)
-                .addComponent(NameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
-                .addComponent(UserField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(userIdField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
-                .addComponent(EmailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -226,9 +228,9 @@ public class CustomerRegister extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void NameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameFieldActionPerformed
+    private void nameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_NameFieldActionPerformed
+    }//GEN-LAST:event_nameFieldActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
         // TODO add your handling code here:
@@ -239,40 +241,40 @@ public class CustomerRegister extends javax.swing.JFrame {
 
     private void RegisterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterButtonActionPerformed
         // TODO add your handling code here:
+        String name = nameField.getText();
+        String userId = userIdField.getText();
+        String email = emailField.getText();
+        String password = passwordField.getText();
+        
+        if (name.length()==0 || userId.length()==0 || email.length()==0 || password.length()==0)
+            System.out.println("ERRO!");
+        else {
+            Customer customer = new Customer(name,userId,email,password);
+            customer.registerUser(customer);
+            
+        }
+        nameField.setText("");
+        userIdField.setText("");
+        emailField.setText("");
+        passwordField.setText("");
     }//GEN-LAST:event_RegisterButtonActionPerformed
 
-    private void UserFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserFieldActionPerformed
+    private void userIdFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userIdFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_UserFieldActionPerformed
+    }//GEN-LAST:event_userIdFieldActionPerformed
 
-    private void EmailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmailFieldActionPerformed
+    private void emailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_EmailFieldActionPerformed
+    }//GEN-LAST:event_emailFieldActionPerformed
 
-    private void PasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordFieldActionPerformed
+    private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_PasswordFieldActionPerformed
+    }//GEN-LAST:event_passwordFieldActionPerformed
 
     private void GeneratorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GeneratorActionPerformed
         // TODO add your handling code here:
-        String[] letters1 = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","x","y","w","z"};
-        String[] letters2 = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","s","T","U","V","X","Y","W","Z"};
-        String[] symbols = {"!","@","#","$","%","&","*","(",")","[","]","{","}","/","?","<",">","§","£"};
-        String password;
-        
-        Random ra = new Random();
-        int number = ra.nextInt(letters1.length);
-        password = letters1[number];
-        number = ra.nextInt(letters2.length);
-        password = password + letters2[number];
-        for(int i=1;i<=5;i++){
-            number = ra.nextInt(10);
-            password = password + number;
-        }
-        number = ra.nextInt(symbols.length);
-        password = password + symbols[number];
-        
-        PasswordField.setText(password);
+        PasswordGenerator generator = new PasswordGenerator();
+        passwordField.setText(generator.generatePassword());
     }//GEN-LAST:event_GeneratorActionPerformed
 
     /**
@@ -315,15 +317,15 @@ public class CustomerRegister extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackButton;
-    private javax.swing.JTextField EmailField;
     private javax.swing.JButton Generator;
-    private javax.swing.JTextField NameField;
-    private javax.swing.JTextField PasswordField;
     private javax.swing.JButton RegisterButton;
-    private javax.swing.JTextField UserField;
+    private javax.swing.JTextField emailField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel logoSide;
+    private javax.swing.JTextField nameField;
+    private javax.swing.JTextField passwordField;
+    private javax.swing.JTextField userIdField;
     // End of variables declaration//GEN-END:variables
 }

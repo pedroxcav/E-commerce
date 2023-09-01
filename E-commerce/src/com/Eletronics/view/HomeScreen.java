@@ -54,6 +54,7 @@ public class HomeScreen extends javax.swing.JFrame {
         enterButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         enterButton.setBackground(new java.awt.Color(255, 255, 255));
         enterButton.setFont(new java.awt.Font("Nortar", 0, 14)); // NOI18N

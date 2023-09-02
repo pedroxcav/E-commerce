@@ -4,25 +4,41 @@
  */
 package com.Eletronics.services;
 
+import com.Eletronics.view.HomeScreen;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
 /**
  *
  * @author pedro
  */
 public class WarningServices {
     
-    public void generateWarning(int function, String text, javax.swing.JLabel textOne, javax.swing.JTextField textTwo){
-        if (function == 0)
-            textTwo.setText(text);
-        else {
-            textOne.setText("INFORME SEU NOME:");
-            textTwo.setEditable(true);
-        }
+    public static void generateWarning(String text, JTextField textTwo){
+        textTwo.setText(text);
+    }
+    public static void generateInput(int function, JLabel textOne, JTextField textTwo){
+        textOne.setText("INFORME SEU NOME:");
+        textTwo.setEditable(true);
     }
     
-    public boolean closeWarning(int function, String text){
+    public static boolean closeWarning(int function, String text, JFrame screen){
         if (function == 0)
             return true;
-        else
-            return text.length()<4 ? false : true;
+        else if (!(text.length()<3)) {
+            if (function == 1){
+                System.out.println("ENTRAR COMO CLIENTE!");
+                HomeScreen home = new HomeScreen();
+                home.setVisible(true);
+            } else {
+                System.out.println("ENTRAR COMO ADMINISTRADOR!");
+                HomeScreen home = new HomeScreen();
+                home.setVisible(true);
+            }
+            screen.dispose();
+            return true;
+        }
+        return false;
     }
 }

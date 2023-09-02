@@ -39,8 +39,8 @@
                       <Component id="LoginButton" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="UserField" alignment="0" pref="258" max="32767" attributes="0"/>
-                      <Component id="PasswordField" alignment="0" max="32767" attributes="0"/>
+                      <Component id="userIdField" alignment="0" pref="258" max="32767" attributes="0"/>
+                      <Component id="passwordField" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="jLabel7" min="-2" pref="170" max="-2" attributes="0"/>
@@ -62,9 +62,9 @@
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="UserField" min="-2" max="-2" attributes="0"/>
+              <Component id="userIdField" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="PasswordField" min="-2" max="-2" attributes="0"/>
+              <Component id="passwordField" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="BackButton" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
@@ -147,7 +147,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RecruiterButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="UserField">
+    <Component class="javax.swing.JTextField" name="userIdField">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -168,10 +168,10 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="UserFieldActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="userIdFieldActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JPasswordField" name="PasswordField">
+    <Component class="javax.swing.JPasswordField" name="passwordField">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -191,7 +191,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PasswordFieldActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="passwordFieldActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">

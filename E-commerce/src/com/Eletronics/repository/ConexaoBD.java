@@ -17,7 +17,7 @@ public class ConexaoBD {
             return c;
         }
         catch (Exception e){
-            Warning warning = new Warning(0,"[ERRO] Banco de dados.");
+            Warning warning = new Warning("[CONEXÃO] Banco de dados.");
             warning.setVisible(true);
         }
         return null;

@@ -25,14 +25,15 @@ public class Customer extends User {
     public Customer(String name, String userId, String CPF, String password) {
         super(name, userId, CPF, password);
     }
+    public Customer(){}
     
     @Override
     public void registerUser(User customer) {
         try {
             if (!(this.verifyUser(customer))){
                 ConexaoBD cbd = new ConexaoBD();
-                String sql = "insert into customers (nome,usuario,CPF,senha) values (?,?,?,?)";
                 try (Connection c = cbd.obtemConexao()) {
+                    String sql = "insert into customers (nome,usuario,CPF,senha) values (?,?,?,?)";
                     PreparedStatement ps = c.prepareStatement(sql);
                     ps.setString(1, customer.getName());
                     ps.setString(2, customer.getUserId());
@@ -42,16 +43,32 @@ public class Customer extends User {
                 }
             }
         } catch (SQLException e) {
-            Warning warning = new Warning(0,"Não foi possível cadastrar.");
+            Warning warning = new Warning("Não foi possível cadastrar.");
             warning.setVisible(true);
         } catch (User_Exception | CPF_Exception | UserCPF_Exception e) {
-            Warning warning = new Warning(0,e.getMessage());
+            Warning warning = new Warning(e.getMessage());
             warning.setVisible(true);
         }
     }
     @Override
-    public void logInto(User customer) {
-        
+    public boolean logInto(String userId, String password) {
+        ConexaoBD cbd = new ConexaoBD();
+        try (Connection c = cbd.obtemConexao()){
+            String sql = "select usuario,senha from customers where usuario = ? and senha = ?";
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setString(1, userId);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next())
+                return true;
+        } catch (SQLException e) {
+            Warning warning = new Warning("Não foi possível entrar.");
+            warning.setVisible(true);
+            e.printStackTrace();
+        }
+        Warning warning = new Warning("Acesso incorreto!");
+        warning.setVisible(true);
+        return false;
     }
     @Override
     protected boolean verifyUser(User customer) throws SQLException, User_Exception, CPF_Exception, UserCPF_Exception{

@@ -20,9 +20,11 @@ public abstract class User {
         this.CPF = CPF;
         this.password = password;
     }
+    protected User(){}
+    
     
     public abstract void registerUser(User user);
-    public abstract void logInto(User user);
+    public abstract boolean logInto(String userId, String password);
     protected abstract boolean verifyUser(User user) throws Exception;
     
     public String getName() {

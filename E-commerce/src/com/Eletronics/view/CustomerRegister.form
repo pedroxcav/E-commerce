@@ -35,7 +35,7 @@
                   </Group>
                   <Component id="nameField" min="-2" pref="258" max="-2" attributes="0"/>
                   <Component id="userIdField" min="-2" pref="258" max="-2" attributes="0"/>
-                  <Component id="emailField" min="-2" pref="258" max="-2" attributes="0"/>
+                  <Component id="CPFField" min="-2" pref="258" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
@@ -70,7 +70,7 @@
               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
               <Component id="userIdField" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-              <Component id="emailField" min="-2" max="-2" attributes="0"/>
+              <Component id="CPFField" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
@@ -226,7 +226,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="userIdFieldActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="emailField">
+    <Component class="javax.swing.JTextField" name="CPFField">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -247,7 +247,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="emailFieldActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CPFFieldActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="passwordField">

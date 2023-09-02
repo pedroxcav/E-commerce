@@ -61,7 +61,7 @@ public class CustomerRegister extends javax.swing.JFrame {
         jPanel1 = new jPanelGradient();
         logoSide = new javax.swing.JLabel();
         userIdField = new javax.swing.JTextField();
-        emailField = new javax.swing.JTextField();
+        CPFField = new javax.swing.JTextField();
         passwordField = new javax.swing.JTextField();
         Generator = new javax.swing.JButton();
 
@@ -135,14 +135,14 @@ public class CustomerRegister extends javax.swing.JFrame {
             }
         });
 
-        emailField.setBackground(new java.awt.Color(255, 255, 255));
-        emailField.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        emailField.setForeground(new java.awt.Color(0, 0, 0));
-        emailField.setToolTipText("");
-        emailField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "CPF:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
-        emailField.addActionListener(new java.awt.event.ActionListener() {
+        CPFField.setBackground(new java.awt.Color(255, 255, 255));
+        CPFField.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        CPFField.setForeground(new java.awt.Color(0, 0, 0));
+        CPFField.setToolTipText("");
+        CPFField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "CPF:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
+        CPFField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emailFieldActionPerformed(evt);
+                CPFFieldActionPerformed(evt);
             }
         });
 
@@ -182,7 +182,7 @@ public class CustomerRegister extends javax.swing.JFrame {
                         .addComponent(jLabel2))
                     .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(userIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CPFField, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -209,7 +209,7 @@ public class CustomerRegister extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addComponent(userIdField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
-                .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(CPFField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -243,19 +243,20 @@ public class CustomerRegister extends javax.swing.JFrame {
         // TODO add your handling code here:
         String name = nameField.getText();
         String userId = userIdField.getText();
-        String email = emailField.getText();
+        String CPF = CPFField.getText();
         String password = passwordField.getText();
         
-        if (name.length()==0 || userId.length()==0 || email.length()==0 || password.length()==0)
-            System.out.println("ERRO!");
-        else {
-            Customer customer = new Customer(name,userId,email,password);
+        if (name.length()==0 || userId.length()==0 || CPF.length()==0 || password.length()==0) {
+            Warning warning = new Warning("Informe os dados corretamente!");
+            warning.setVisible(true);
+        } else {
+            Customer customer = new Customer(name,userId,CPF,password);
             customer.registerUser(customer);
             
         }
         nameField.setText("");
         userIdField.setText("");
-        emailField.setText("");
+        CPFField.setText("");
         passwordField.setText("");
     }//GEN-LAST:event_RegisterButtonActionPerformed
 
@@ -263,9 +264,9 @@ public class CustomerRegister extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_userIdFieldActionPerformed
 
-    private void emailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailFieldActionPerformed
+    private void CPFFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CPFFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_emailFieldActionPerformed
+    }//GEN-LAST:event_CPFFieldActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
         // TODO add your handling code here:
@@ -317,9 +318,9 @@ public class CustomerRegister extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackButton;
+    private javax.swing.JTextField CPFField;
     private javax.swing.JButton Generator;
     private javax.swing.JButton RegisterButton;
-    private javax.swing.JTextField emailField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

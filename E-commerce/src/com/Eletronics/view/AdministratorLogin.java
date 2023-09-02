@@ -4,6 +4,7 @@
  */
 package com.Eletronics.view;
 
+import com.Eletronics.model.Administrator;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -55,8 +56,8 @@ public class AdministratorLogin extends javax.swing.JFrame {
         logoSide = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         RecruiterButton = new javax.swing.JButton();
-        UserField = new javax.swing.JTextField();
-        PasswordField = new javax.swing.JPasswordField();
+        userIdField = new javax.swing.JTextField();
+        passwordField = new javax.swing.JPasswordField();
         jLabel1 = new javax.swing.JLabel();
         BackButton = new javax.swing.JButton();
         LoginButton = new javax.swing.JButton();
@@ -98,24 +99,24 @@ public class AdministratorLogin extends javax.swing.JFrame {
             }
         });
 
-        UserField.setBackground(new java.awt.Color(255, 255, 255));
-        UserField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        UserField.setForeground(new java.awt.Color(0, 0, 0));
-        UserField.setToolTipText("");
-        UserField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "usuário:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
-        UserField.addActionListener(new java.awt.event.ActionListener() {
+        userIdField.setBackground(new java.awt.Color(255, 255, 255));
+        userIdField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        userIdField.setForeground(new java.awt.Color(0, 0, 0));
+        userIdField.setToolTipText("");
+        userIdField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "usuário:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
+        userIdField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UserFieldActionPerformed(evt);
+                userIdFieldActionPerformed(evt);
             }
         });
 
-        PasswordField.setBackground(new java.awt.Color(255, 255, 255));
-        PasswordField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        PasswordField.setForeground(new java.awt.Color(0, 0, 0));
-        PasswordField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "senha:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
-        PasswordField.addActionListener(new java.awt.event.ActionListener() {
+        passwordField.setBackground(new java.awt.Color(255, 255, 255));
+        passwordField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        passwordField.setForeground(new java.awt.Color(0, 0, 0));
+        passwordField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "senha:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
+        passwordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PasswordFieldActionPerformed(evt);
+                passwordFieldActionPerformed(evt);
             }
         });
 
@@ -164,8 +165,8 @@ public class AdministratorLogin extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(LoginButton))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(UserField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
-                        .addComponent(PasswordField, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addComponent(userIdField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+                        .addComponent(passwordField, javax.swing.GroupLayout.Alignment.LEADING))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -181,9 +182,9 @@ public class AdministratorLogin extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
-                .addComponent(UserField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(userIdField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -201,15 +202,17 @@ public class AdministratorLogin extends javax.swing.JFrame {
 
     private void RecruiterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RecruiterButtonActionPerformed
         // TODO add your handling code here:
+        Warning warning = new Warning(2,this);
+        warning.setVisible(true);
     }//GEN-LAST:event_RecruiterButtonActionPerformed
 
-    private void UserFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserFieldActionPerformed
+    private void userIdFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userIdFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_UserFieldActionPerformed
+    }//GEN-LAST:event_userIdFieldActionPerformed
 
-    private void PasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordFieldActionPerformed
+    private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_PasswordFieldActionPerformed
+    }//GEN-LAST:event_passwordFieldActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
         // TODO add your handling code here:
@@ -220,6 +223,22 @@ public class AdministratorLogin extends javax.swing.JFrame {
 
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
         // TODO add your handling code here:
+        String userId = userIdField.getText();
+        String password = String.valueOf(passwordField.getPassword());
+        
+        if(userId.length()==0 || password.length()==0){
+            Warning warning = new Warning("Informe os dados corretamente!");
+            warning.setVisible(true);
+        } else {
+            Administrator administrator = new Administrator();
+            if (administrator.logInto(userId, password)){
+                HomeScreen home = new HomeScreen();
+                home.setVisible(true);
+                this.dispose();
+            }
+        }
+        userIdField.setText("");
+        passwordField.setText("");
     }//GEN-LAST:event_LoginButtonActionPerformed
 
     /**
@@ -261,13 +280,13 @@ public class AdministratorLogin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackButton;
     private javax.swing.JButton LoginButton;
-    private javax.swing.JPasswordField PasswordField;
     private javax.swing.JButton RecruiterButton;
-    private javax.swing.JTextField UserField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel logoSide;
+    private javax.swing.JPasswordField passwordField;
+    private javax.swing.JTextField userIdField;
     // End of variables declaration//GEN-END:variables
 }

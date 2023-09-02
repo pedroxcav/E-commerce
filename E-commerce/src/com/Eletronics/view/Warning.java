@@ -5,22 +5,28 @@
 package com.Eletronics.view;
 
 import com.Eletronics.services.WarningServices;
+import javax.swing.JFrame;
 
 /**
  *
  * @author pedro
  */
 public class Warning extends javax.swing.JFrame {
-    int function;
+    private int function = 0;
+    private JFrame screen;
     
     /**
      * Creates new form Warning
      */
-    public Warning(int function, String text) {
+    public Warning(String text) {
         initComponents();
+        WarningServices.generateWarning(text, textTwo);
+    }
+    public Warning(int function, JFrame screen){
+        initComponents();
+        this.screen = screen;
         this.function = function;
-        WarningServices services = new WarningServices();
-        services.generateWarning(function, text, textOne, textTwo);
+        WarningServices.generateInput(function, textOne, textTwo);
     }
 
     /**
@@ -39,7 +45,7 @@ public class Warning extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(30, 30, 30));
@@ -73,7 +79,7 @@ public class Warning extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(90, 90, 90)
                 .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(90, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(textTwo, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel1Layout.setVerticalGroup(
@@ -99,7 +105,7 @@ public class Warning extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(title, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(title, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,8 +116,8 @@ public class Warning extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,8 +134,7 @@ public class Warning extends javax.swing.JFrame {
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         // TODO add your handling code here:
         String text = textTwo.getText();
-        WarningServices services = new WarningServices();
-        if (services.closeWarning(function, text)) this.dispose();
+        if (WarningServices.closeWarning(this.function, text, this.screen))this.dispose();
     }//GEN-LAST:event_okButtonActionPerformed
 
     /**
@@ -162,7 +167,7 @@ public class Warning extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Warning(0,"").setVisible(true);
+                new Warning("").setVisible(true);
             }
         });
     }

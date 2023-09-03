@@ -8,10 +8,11 @@ package com.Eletronics.services;
  *
  * @author pedro
  */
-public class User_Exception extends myOwnException {
-    
-    public User_Exception(String message) {
+public class Exception_ID extends Exception_Super {
+    public Exception_ID(String message) {
         super(message);
     }
-    
+    public Exception_ID(){
+        super();
+    }
 }

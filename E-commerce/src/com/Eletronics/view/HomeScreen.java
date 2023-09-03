@@ -25,7 +25,7 @@ public class HomeScreen extends javax.swing.JFrame {
         logoCenter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/logoCenter.png")));
     }
     
-    class jPanelGradient extends JPanel {
+    static class jPanelGradient extends JPanel {
         @Override
         protected void paintComponent(Graphics g) {
             Graphics2D g2d = (Graphics2D) g;

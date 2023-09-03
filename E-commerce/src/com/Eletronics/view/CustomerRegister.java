@@ -5,12 +5,8 @@
 package com.Eletronics.view;
 
 import com.Eletronics.model.Customer;
-import com.Eletronics.services.PasswordGenerator;
+import com.Eletronics.services.RandomGenerator;
 import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import javax.swing.JPanel;
 
 /**
  *
@@ -27,21 +23,7 @@ public class CustomerRegister extends javax.swing.JFrame {
         getContentPane().setBackground(Color.WHITE);
         
         logoSide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/logoSide.png")));
-    }
-    
-    class jPanelGradient extends JPanel {
-        @Override
-        protected void paintComponent(Graphics g) {
-            Graphics2D g2d = (Graphics2D) g;
-            int width = getWidth();
-            int height = getHeight();
-            
-            Color color1 = new Color(10,10,10);
-            Color color2 = new Color(30,30,30);
-            GradientPaint gp = new GradientPaint(120,120,color1,120,height,color2);
-            g2d.setPaint(gp);
-            g2d.fillRect(0, 0, width, height);
-        }
+        generator.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/padlock.png")));
     }
 
     /**
@@ -58,12 +40,12 @@ public class CustomerRegister extends javax.swing.JFrame {
         BackButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         RegisterButton = new javax.swing.JButton();
-        jPanel1 = new jPanelGradient();
+        jPanel1 = new HomeScreen.jPanelGradient();
         logoSide = new javax.swing.JLabel();
         userIdField = new javax.swing.JTextField();
         CPFField = new javax.swing.JTextField();
         passwordField = new javax.swing.JTextField();
-        Generator = new javax.swing.JButton();
+        generator = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -157,14 +139,14 @@ public class CustomerRegister extends javax.swing.JFrame {
             }
         });
 
-        Generator.setBackground(new java.awt.Color(255, 255, 255));
-        Generator.setFont(new java.awt.Font("Nortar", 0, 14)); // NOI18N
-        Generator.setForeground(new java.awt.Color(0, 0, 0));
-        Generator.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
-        Generator.setBorderPainted(false);
-        Generator.addActionListener(new java.awt.event.ActionListener() {
+        generator.setBackground(new java.awt.Color(255, 255, 255));
+        generator.setFont(new java.awt.Font("Nortar", 0, 14)); // NOI18N
+        generator.setForeground(new java.awt.Color(0, 0, 0));
+        generator.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        generator.setBorderPainted(false);
+        generator.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GeneratorActionPerformed(evt);
+                generatorActionPerformed(evt);
             }
         });
 
@@ -191,7 +173,7 @@ public class CustomerRegister extends javax.swing.JFrame {
                                 .addComponent(RegisterButton))
                             .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Generator, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)))
+                        .addComponent(generator, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)))
                 .addContainerGap(123, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -220,7 +202,7 @@ public class CustomerRegister extends javax.swing.JFrame {
                             .addComponent(RegisterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(15, 15, 15)
-                        .addComponent(Generator, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(generator, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(56, Short.MAX_VALUE))
         );
 
@@ -272,11 +254,11 @@ public class CustomerRegister extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordFieldActionPerformed
 
-    private void GeneratorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GeneratorActionPerformed
+    private void generatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generatorActionPerformed
         // TODO add your handling code here:
-        PasswordGenerator generator = new PasswordGenerator();
+        RandomGenerator generator = new RandomGenerator();
         passwordField.setText(generator.generatePassword());
-    }//GEN-LAST:event_GeneratorActionPerformed
+    }//GEN-LAST:event_generatorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -319,8 +301,8 @@ public class CustomerRegister extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackButton;
     private javax.swing.JTextField CPFField;
-    private javax.swing.JButton Generator;
     private javax.swing.JButton RegisterButton;
+    private javax.swing.JButton generator;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

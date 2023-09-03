@@ -4,6 +4,7 @@
  */
 package com.Eletronics.services;
 
+import com.Eletronics.view.AdministratorManagement;
 import com.Eletronics.view.HomeScreen;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,13 +29,11 @@ public class WarningServices {
             return true;
         else if (!(text.length()<3)) {
             if (function == 1){
-                System.out.println("ENTRAR COMO CLIENTE!");
                 HomeScreen home = new HomeScreen();
                 home.setVisible(true);
             } else {
-                System.out.println("ENTRAR COMO ADMINISTRADOR!");
-                HomeScreen home = new HomeScreen();
-                home.setVisible(true);
+                AdministratorManagement management = new AdministratorManagement();
+                management.setVisible(true);
             }
             screen.dispose();
             return true;

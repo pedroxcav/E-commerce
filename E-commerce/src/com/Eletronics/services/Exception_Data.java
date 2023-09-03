@@ -8,10 +8,13 @@ package com.Eletronics.services;
  *
  * @author pedro
  */
-public class CPF_Exception extends myOwnException {
+public class Exception_Data extends Exception_Super {
     
-    public CPF_Exception(String message) {
+    public Exception_Data(String message) {
         super(message);
+    }
+    public Exception_Data(){
+        super();
     }
     
 }

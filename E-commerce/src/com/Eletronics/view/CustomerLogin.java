@@ -6,10 +6,6 @@ package com.Eletronics.view;
 
 import com.Eletronics.model.Customer;
 import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import javax.swing.JPanel;
 
 /**
  *
@@ -27,21 +23,6 @@ public class CustomerLogin extends javax.swing.JFrame {
         logoSide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/logoSide.png")));
     }
     
-    class jPanelGradient extends JPanel {
-        @Override
-        protected void paintComponent(Graphics g) {
-            Graphics2D g2d = (Graphics2D) g;
-            int width = getWidth();
-            int height = getHeight();
-            
-            Color color1 = new Color(10,10,10);
-            Color color2 = new Color(30,30,30);
-            GradientPaint gp = new GradientPaint(120,120,color1,120,height,color2);
-            g2d.setPaint(gp);
-            g2d.fillRect(0, 0, width, height);
-        }
-    }
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,7 +32,7 @@ public class CustomerLogin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new jPanelGradient();
+        jPanel1 = new HomeScreen.jPanelGradient();
         logoSide = new javax.swing.JLabel();
         userIdField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();

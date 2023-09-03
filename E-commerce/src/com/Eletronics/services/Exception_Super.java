@@ -8,17 +8,16 @@ package com.Eletronics.services;
  *
  * @author pedro
  */
-public abstract class myOwnException extends Exception {
+public abstract class Exception_Super extends Exception {
     String message;
     
-    public myOwnException(String message) {
+    public Exception_Super(String message) {
         this.message = message;
     }
+    public Exception_Super(){}
 
+    @Override
     public String getMessage() {
         return message;
-    }
-    public void setMessage(String message) {
-        this.message = message;
     }
 }

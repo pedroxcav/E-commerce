@@ -5,9 +5,9 @@
 package com.Eletronics.model;
 
 import com.Eletronics.repository.ConexaoBD;
-import com.Eletronics.services.CPF_Exception;
-import com.Eletronics.services.UserCPF_Exception;
-import com.Eletronics.services.User_Exception;
+import com.Eletronics.services.Exception_CPF;
+import com.Eletronics.services.Exception_UserCPF;
+import com.Eletronics.services.Exception_User;
 import com.Eletronics.view.Warning;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,7 +25,9 @@ public class Customer extends User {
     public Customer(String name, String userId, String CPF, String password) {
         super(name, userId, CPF, password);
     }
-    public Customer(){}
+    public Customer(){
+        super();
+    }
     
     @Override
     public void registerUser(User customer) {
@@ -45,7 +47,7 @@ public class Customer extends User {
         } catch (SQLException e) {
             Warning warning = new Warning("Não foi possível cadastrar.");
             warning.setVisible(true);
-        } catch (User_Exception | CPF_Exception | UserCPF_Exception e) {
+        } catch (Exception_User | Exception_CPF | Exception_UserCPF e) {
             Warning warning = new Warning(e.getMessage());
             warning.setVisible(true);
         }
@@ -71,7 +73,7 @@ public class Customer extends User {
         return false;
     }
     @Override
-    protected boolean verifyUser(User customer) throws SQLException, User_Exception, CPF_Exception, UserCPF_Exception{
+    protected boolean verifyUser(User customer) throws SQLException, Exception_User, Exception_CPF, Exception_UserCPF{
         ConexaoBD cbd = new ConexaoBD();
         try (Connection c = cbd.obtemConexao()) {
             String sql = "select usuario,CPF from customers where usuario = ? or CPF = ?";
@@ -92,11 +94,11 @@ public class Customer extends User {
                         errorType+=2;
                 } while (rs.next());
                 if (errorType == 1)
-                    throw new User_Exception("Usuário já utilizado!");
+                    throw new Exception_User("Usuário já utilizado!");
                 else if (errorType == 2)
-                    throw new CPF_Exception("Este CPF já foi utilizado!");
+                    throw new Exception_CPF("Este CPF já foi utilizado!");
                 else
-                    throw new UserCPF_Exception("Usuário e CPF já utilizados!");
+                    throw new Exception_UserCPF("Usuário e CPF já utilizados!");
             }
         }
     }

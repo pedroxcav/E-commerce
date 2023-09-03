@@ -6,10 +6,6 @@ package com.Eletronics.view;
 
 import com.Eletronics.model.Administrator;
 import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import javax.swing.JPanel;
 
 /**
  *
@@ -27,21 +23,6 @@ public class AdministratorLogin extends javax.swing.JFrame {
         
         logoSide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/logoSide.png")));
     }
-    
-    class jPanelGradient extends JPanel {
-        @Override
-        protected void paintComponent(Graphics g) {
-            Graphics2D g2d = (Graphics2D) g;
-            int width = getWidth();
-            int height = getHeight();
-            
-            Color color1 = new Color(10,10,10);
-            Color color2 = new Color(30,30,30);
-            GradientPaint gp = new GradientPaint(120,120,color1,120,height,color2);
-            g2d.setPaint(gp);
-            g2d.fillRect(0, 0, width, height);
-        }
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,7 +33,7 @@ public class AdministratorLogin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new jPanelGradient();
+        jPanel1 = new HomeScreen.jPanelGradient();
         logoSide = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         RecruiterButton = new javax.swing.JButton();
@@ -78,7 +59,7 @@ public class AdministratorLogin extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(152, Short.MAX_VALUE)
+                .addContainerGap(151, Short.MAX_VALUE)
                 .addComponent(logoSide, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(152, 152, 152))
         );
@@ -232,8 +213,8 @@ public class AdministratorLogin extends javax.swing.JFrame {
         } else {
             Administrator administrator = new Administrator();
             if (administrator.logInto(userId, password)){
-                HomeScreen home = new HomeScreen();
-                home.setVisible(true);
+                AdministratorManagement management = new AdministratorManagement();
+                management.setVisible(true);
                 this.dispose();
             }
         }

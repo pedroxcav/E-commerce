@@ -8,10 +8,12 @@ package com.Eletronics.services;
  *
  * @author pedro
  */
-public class UserCPF_Exception extends myOwnException {
+public class Exception_User extends Exception_Super {
     
-    public UserCPF_Exception(String message) {
+    public Exception_User(String message) {
         super(message);
     }
-    
+    public Exception_User(){
+        super();
+    }
 }

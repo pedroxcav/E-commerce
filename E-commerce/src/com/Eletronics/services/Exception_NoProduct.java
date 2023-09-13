@@ -8,12 +8,13 @@ package com.Eletronics.services;
  *
  * @author pedro
  */
-public class Exception_User extends Exception_Super {
-    
-    public Exception_User(String message) {
-        super(message);
+public class Exception_NoProduct extends Exception_Own {
+    public Exception_NoProduct(String message){
+        super();
+        this.message = message;
     }
-    public Exception_User(){
+
+    public Exception_NoProduct() {
         super();
     }
 }

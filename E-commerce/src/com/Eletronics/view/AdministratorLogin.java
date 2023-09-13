@@ -183,8 +183,9 @@ public class AdministratorLogin extends javax.swing.JFrame {
 
     private void RecruiterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RecruiterButtonActionPerformed
         // TODO add your handling code here:
-        Warning warning = new Warning(2,this);
+        Warning warning = new Warning(2);
         warning.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_RecruiterButtonActionPerformed
 
     private void userIdFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userIdFieldActionPerformed

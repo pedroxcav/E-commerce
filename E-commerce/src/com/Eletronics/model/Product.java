@@ -5,60 +5,75 @@
 package com.Eletronics.model;
 
 import com.Eletronics.repository.ConexaoBD;
-import java.io.InputStream;
+import com.Eletronics.services.Exception_Data;
+import com.Eletronics.view.Warning;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
  *
  * @author pedro
  */
 public class Product {
-    String id;
-    String name;
-    String description;
-    double price;
-    InputStream image;
-
-    public Product(String id, String name, String description, double price, InputStream image) {
+    private String id;
+    private String name;
+    private String description;
+    private double price;
+    private BufferedImage image;
+    
+    public Product(String id, String name, String description, double price, BufferedImage image) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.image = image;
     }
+    public Product() {}
     
     public void registerProduct(Product product){
         ConexaoBD cbd = new ConexaoBD();
         try (Connection c = cbd.obtemConexao()){
+            if (this.verifyProduct(id)) throw new Exception_Data("ID já utilizado!");
             String sql = "insert into products (id,nome,descricao,valor,imagem) values (?,?,?,?,?)";
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setString(1, product.getId());
             ps.setString(2, product.getName());
             ps.setString(3, product.getDescription());
             ps.setDouble(4, product.getPrice());
-            ps.setBlob(5, product.getImage());
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(product.getImage(), "png", baos);
+            Blob blob = new javax.sql.rowset.serial.SerialBlob(baos.toByteArray());
+            ps.setBlob(5, blob);
             ps.execute();
-            System.out.println("Registrou!");
+        } catch (Exception_Data e) {
+            Warning warning = new  Warning(e.getMessage());
+            warning.setVisible(true);
         } catch (Exception e) {
-            e.printStackTrace();
+            Warning warning = new Warning("Produto não cadastrado!");
+            warning.setVisible(true);
         }
     }
     
-    public static boolean verifyProduct(String id){
+    public boolean verifyProduct(String id) {
         ConexaoBD cbd = new ConexaoBD();
         try (Connection c = cbd.obtemConexao()) {
             String sql = "select id from products where id = ?";
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
-            if (rs.next() == false)
-                return false;
+            if (rs.next()) throw new Exception_Data();
+            else return false;
         } catch (Exception e) {
-            e.printStackTrace();
+            return true;
         }
-        return true;
     }
 
     public String getId() {
@@ -73,7 +88,7 @@ public class Product {
     public double getPrice() {
         return price;
     }
-    public InputStream getImage() {
+    public BufferedImage getImage() {
         return image;
     }
 
@@ -89,7 +104,7 @@ public class Product {
     public void setPrice(double price) {
         this.price = price;
     }
-    public void setImage(InputStream image) {
+    public void setImage(BufferedImage image) {
         this.image = image;
     }
 }

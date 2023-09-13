@@ -5,9 +5,7 @@
 package com.Eletronics.model;
 
 import com.Eletronics.repository.ConexaoBD;
-import com.Eletronics.services.Exception_CPF;
-import com.Eletronics.services.Exception_UserCPF;
-import com.Eletronics.services.Exception_User;
+import com.Eletronics.services.Exception_Data;
 import com.Eletronics.view.Warning;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -47,7 +45,7 @@ public class Customer extends User {
         } catch (SQLException e) {
             Warning warning = new Warning("Não foi possível cadastrar.");
             warning.setVisible(true);
-        } catch (Exception_User | Exception_CPF | Exception_UserCPF e) {
+        } catch (Exception_Data e) {
             Warning warning = new Warning(e.getMessage());
             warning.setVisible(true);
         }
@@ -66,14 +64,13 @@ public class Customer extends User {
         } catch (SQLException e) {
             Warning warning = new Warning("Não foi possível entrar.");
             warning.setVisible(true);
-            e.printStackTrace();
         }
         Warning warning = new Warning("Acesso incorreto!");
         warning.setVisible(true);
         return false;
     }
     @Override
-    protected boolean verifyUser(User customer) throws SQLException, Exception_User, Exception_CPF, Exception_UserCPF{
+    protected boolean verifyUser(User customer) throws SQLException, Exception_Data {
         ConexaoBD cbd = new ConexaoBD();
         try (Connection c = cbd.obtemConexao()) {
             String sql = "select usuario,CPF from customers where usuario = ? or CPF = ?";
@@ -93,12 +90,14 @@ public class Customer extends User {
                     if (CPF.equals(customer.getCPF()))
                         errorType+=2;
                 } while (rs.next());
-                if (errorType == 1)
-                    throw new Exception_User("Usuário já utilizado!");
-                else if (errorType == 2)
-                    throw new Exception_CPF("Este CPF já foi utilizado!");
-                else
-                    throw new Exception_UserCPF("Usuário e CPF já utilizados!");
+                switch (errorType) {
+                    case 1:
+                        throw new Exception_Data("Usuário já utilizado!");
+                    case 2:
+                        throw new Exception_Data("Este CPF já foi utilizado!");
+                    default:
+                        throw new Exception_Data("Usuário e CPF já utilizados!");
+                }
             }
         }
     }

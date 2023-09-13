@@ -8,11 +8,13 @@ package com.Eletronics.services;
  *
  * @author pedro
  */
-public class Exception_ID extends Exception_Super {
-    public Exception_ID(String message) {
-        super(message);
-    }
-    public Exception_ID(){
-        super();
+public abstract class Exception_Own extends Exception {
+    String message;
+    
+    public Exception_Own(){}
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

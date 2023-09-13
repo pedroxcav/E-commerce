@@ -239,8 +239,9 @@ public class CustomerLogin extends javax.swing.JFrame {
 
     private void RecruiterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RecruiterButtonActionPerformed
         // TODO add your handling code here:
-        Warning warning = new Warning(1,this);
+        Warning warning = new Warning(1);
         warning.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_RecruiterButtonActionPerformed
 
     private void AdmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdmButtonActionPerformed
@@ -272,19 +273,17 @@ public class CustomerLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
         String userId = userIdField.getText();
         String password = String.valueOf(passwordField.getPassword());
-        
         if(userId.length()==0 || password.length()==0){
             Warning warning = new Warning("Informe os dados corretamente!");
             warning.setVisible(true);
         } else {
             Customer customer = new Customer();
             if (customer.logInto(userId, password)){
-                HomeScreen home = new HomeScreen();
-                home.setVisible(true);
+                CustomerProducts customerProducts = new CustomerProducts();
+                customerProducts.setVisible(true);
                 this.dispose();
             }
         }
-        
         userIdField.setText("");
         passwordField.setText("");
     }//GEN-LAST:event_LoginButtonActionPerformed

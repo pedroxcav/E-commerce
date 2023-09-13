@@ -256,8 +256,7 @@ public class CustomerRegister extends javax.swing.JFrame {
 
     private void generatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generatorActionPerformed
         // TODO add your handling code here:
-        RandomGenerator generator = new RandomGenerator();
-        passwordField.setText(generator.generatePassword());
+        passwordField.setText(RandomGenerator.generatePassword());
     }//GEN-LAST:event_generatorActionPerformed
 
     /**

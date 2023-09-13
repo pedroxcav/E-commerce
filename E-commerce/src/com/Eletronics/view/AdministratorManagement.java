@@ -6,14 +6,10 @@ package com.Eletronics.view;
 
 import com.Eletronics.model.Product;
 import com.Eletronics.services.Exception_Data;
-import com.Eletronics.services.Exception_ID;
 import com.Eletronics.services.RandomGenerator;
 import java.awt.Color;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -23,7 +19,7 @@ import javax.swing.JFileChooser;
  * @author pedro
  */
 public class AdministratorManagement extends javax.swing.JFrame {
-    private String path2 = null;
+    private BufferedImage image;
 
     /**
      * Creates new form AdministratorManagement
@@ -386,19 +382,18 @@ public class AdministratorManagement extends javax.swing.JFrame {
             String name = nameField.getText();
             String description = descriptionField.getText();
             double price = Double.parseDouble(priceField.getText());
-            InputStream image = new FileInputStream(new File(path2));
             if (ID.length()==0 || name.length()==0 || description.length()==0 || String.valueOf(price).length()==0 || imageField.getIcon()==null)
-                throw new Exception_Data();
-            else if (Product.verifyProduct(ID)) {
-                throw new Exception_ID();
-            } else {
+                throw new Exception_Data("Informe os dados corretamente!");
+            else if (ID.length() != 5)
+                throw new Exception_Data("ID deve conter 5 caracteres!");
+            else {
                 Product product = new Product(ID, name, description, price, image);
                 product.registerProduct(product);
             }
-        } catch (Exception_ID e) {
-            Warning warning = new Warning("ID já utilizado!");
+        } catch (Exception_Data e) {
+            Warning warning = new Warning(e.getMessage());
             warning.setVisible(true);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             Warning warning = new Warning("Informe os dados corretamente!");
             warning.setVisible(true);
         } finally {
@@ -415,14 +410,11 @@ public class AdministratorManagement extends javax.swing.JFrame {
         try {
             JFileChooser chooser = new JFileChooser();
             chooser.showOpenDialog(null);
-            File f = chooser.getSelectedFile();
-            String path = f.getAbsolutePath();
-            
-            BufferedImage bi = ImageIO.read(new File(path));
-            Image img = bi.getScaledInstance(211, 275, Image.SCALE_SMOOTH);
-            ImageIcon icon = new ImageIcon(img);
+            File file = chooser.getSelectedFile();
+            String path = file.getAbsolutePath();
+            image = ImageIO.read(new File(path));
+            ImageIcon icon = new ImageIcon(image);
             imageField.setIcon(icon);
-            path2 = path;
         } catch (Exception e) {
             Warning warning = new Warning("Imagem não encontrada!");
             warning.setVisible(true);
@@ -454,6 +446,18 @@ public class AdministratorManagement extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(AdministratorManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>

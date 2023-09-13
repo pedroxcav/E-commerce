@@ -5,7 +5,6 @@
 package com.Eletronics.view;
 
 import com.Eletronics.services.WarningServices;
-import javax.swing.JFrame;
 
 /**
  *
@@ -13,7 +12,6 @@ import javax.swing.JFrame;
  */
 public class Warning extends javax.swing.JFrame {
     private int function = 0;
-    private JFrame screen;
     
     /**
      * Creates new form Warning
@@ -22,9 +20,8 @@ public class Warning extends javax.swing.JFrame {
         initComponents();
         WarningServices.generateWarning(text, textTwo);
     }
-    public Warning(int function, JFrame screen){
+    public Warning(int function){
         initComponents();
-        this.screen = screen;
         this.function = function;
         WarningServices.generateInput(function, textOne, textTwo);
     }
@@ -134,7 +131,7 @@ public class Warning extends javax.swing.JFrame {
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         // TODO add your handling code here:
         String text = textTwo.getText();
-        if (WarningServices.closeWarning(this.function, text, this.screen))this.dispose();
+        if (WarningServices.closeWarning(this.function, text)) this.dispose();
     }//GEN-LAST:event_okButtonActionPerformed
 
     /**

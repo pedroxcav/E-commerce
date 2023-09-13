@@ -8,13 +8,13 @@ package com.Eletronics.services;
  *
  * @author pedro
  */
-public class Exception_Data extends Exception_Super {
-    
-    public Exception_Data(String message) {
-        super(message);
+public class Exception_Data extends Exception_Own {
+    public Exception_Data(String message){
+        super();
+        this.message = message;
     }
-    public Exception_Data(){
+    
+    public Exception_Data() {
         super();
     }
-    
 }

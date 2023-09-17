@@ -6,20 +6,17 @@ package com.Eletronics.services;
 
 import com.Eletronics.model.Product;
 import com.Eletronics.repository.ConexaoBD;
+import com.Eletronics.view.CustomerProduct;
 import com.Eletronics.view.Warning;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Connection;
-import java.sql.Blob;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.JEditorPane;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
@@ -30,127 +27,159 @@ import javax.swing.JTextField;
  * @author pedro
  */
 public class ProductServices {
-    private final JLabel idField;
-    private final JLabel nameField;
-    private final JEditorPane descriptionField;
-    private final JLabel priceField;
-    private final JLabel imageField;
-    private final JScrollPane scrollPane;
-    private final JTextField searchField;
-    private final JList list;
-    
-    private final ArrayList<Product> products = this.getProductDatabase();
-    private int index = 0;
+    private JLabel nameField;
+    private JLabel idField;
+    private JLabel descriptionField;
+    private JLabel priceField;
+    private JLabel imageField;
 
-    public ProductServices(JLabel idField, JLabel nameField, JEditorPane descriptionField, JLabel priceField, JLabel imageField, JScrollPane scrollPane, JTextField searchField, JList list) {
-        this.idField = idField;
+    public ProductServices(JLabel nameField, JLabel idField, JLabel descriptionField, JLabel priceField, JLabel imageField) {
         this.nameField = nameField;
+        this.idField = idField;
         this.descriptionField = descriptionField;
         this.priceField = priceField;
         this.imageField = imageField;
-        this.scrollPane =  scrollPane;
-        this.searchField  = searchField;
-        this.list = list;
     }
     
-    private ArrayList<Product> getProductDatabase(){
+    public static DefaultListModel getProductDatabase(){
+        DefaultListModel listModel = new DefaultListModel();
+        listModel.clear();
         ConexaoBD cbd = new ConexaoBD();
-        try (Connection c = cbd.obtemConexao()) {
+        try (Connection c = cbd.obtemConexao()){
             String sql = "select * from products";
             PreparedStatement ps = c.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            ArrayList<Product> model = new ArrayList<>();
-            if (rs.next()==false)
-                throw new Exception_NoProduct();
-            else {
+            if (rs.next()){
                 do {
-                    String ID = rs.getString("id");
+                    String id = rs.getString("id");
                     String name = rs.getString("nome");
                     String description = rs.getString("descricao");
                     double price = rs.getDouble("valor");
-                    Blob blob = rs.getBlob("imagem");
-                    byte[] img = blob.getBytes(1, (int) blob.length());
-                    BufferedImage image = ImageIO.read(new ByteArrayInputStream(img));
-                    model.add(new Product(ID, name, description, price, image));
-                } while(rs.next());
-                return model;
+                    byte[] imageBytes = rs.getBytes("imagem");
+                    BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageBytes));
+                    listModel.addElement(new Product(id, name, description, price, image));
+                } while (rs.next());
             }
         } catch (Exception e) {
-            return null;
+            Warning warning = new Warning("[ERRO]");
+            warning.setVisible(true);
         }
+        return listModel;
     }
     
-    public boolean setProduct(){
-        if (products != null) {
-            Product product = products.get(index);
-            idField.setText(product.getId().toUpperCase());
-            nameField.setText(product.getName().toUpperCase());
-            descriptionField.setText(product.getDescription());
-            priceField.setText("R$ "+product.getPrice());
-            ImageIcon icon = new ImageIcon(product.getImage());
-            imageField.setIcon(icon);
-            return true;
+    public static DefaultListModel searchProductDatabase(JTextField searchField, JScrollPane scrollPane) {
+        DefaultListModel listModel = new DefaultListModel();
+        listModel.clear();
+        if (!searchField.getText().isEmpty()) {
+            ConexaoBD cbd = new ConexaoBD();
+            try (Connection c = cbd.obtemConexao()){
+                String sql = "select * from products where nome like '"+searchField.getText()+"%'"+"order by nome";
+                PreparedStatement ps = c.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()){
+                    do {
+                        String id = rs.getString("id");
+                        String name = rs.getString("nome");
+                        String description = rs.getString("descricao");
+                        double price = rs.getDouble("valor");
+                        BufferedImage image = ImageIO.read(new ByteArrayInputStream(rs.getBytes("imagem")));
+                        listModel.addElement(new Product(id, name, description, price, image));
+                    } while (rs.next());
+                    scrollPane.setSize(294, 292);
+                    scrollPane.setVisible(true);
+                }
+            } catch (Exception e) {
+                Warning warning = new Warning("[ERRO]");
+                warning.setVisible(true);
+            }
         } else
-            return false;
+            scrollPane.setVisible(false);
+        return listModel;
     }
+    
+    public static void showProduct(JFrame screen, JList list){
+        DefaultListModel listModel = (DefaultListModel) list.getModel();
+        Product product = (Product) listModel.getElementAt(list.getSelectedIndex());
+        CustomerProduct customerProduct  = new CustomerProduct(product);
+        customerProduct.setVisible(true);
+        screen.dispose();
+    }
+    
+    private int index = 0;
     
     public void moveProduct(String action) {
-        try {
-            if (action.equals("next")) {
-                index++;
-                if (index > products.size()-1) index = 0;
-            } else if (action.equals("previous")) {
-                index--;
-                if (index < 0) index = products.size() - 1;
-            }
-            if (!this.setProduct())
-                throw new Exception_NoProduct();
-        } catch (NullPointerException | Exception_NoProduct e) {
-            Warning warning = new Warning("Não há produtos disponíveis!");
-            warning.setVisible(true);
+        DefaultListModel listModel = ProductServices.getProductDatabase();
+        if (action.equals("next")) {
+            index++;
+            if (index > listModel.size()-1) index = 0;
+        } else if (action.equals("previous")) {
+            index--;
+            if (index < 0) index = listModel.size() - 1;
         }
+        this.setProduct((Product)listModel.getElementAt(index));
     }
     
-    public void searchProducts(){
+    private void setProduct(Product product){
+        nameField.setText(product.getName().toUpperCase());
+        idField.setText(product.getId());
+        descriptionField.setText(product.getDescription());
+        priceField.setText("R$ "+product.getPrice());
+        imageField.setIcon(new ImageIcon(product.getImage()));
+    }
+    
+    public void addProduct(){
+        Product product = this.getProduct(idField.getText());
+        System.out.println("Nome: "+product.getName()+"\nID: "+product.getId());
+    }
+    
+    private Product getProduct(String productId) {
         ConexaoBD cbd = new ConexaoBD();
         try (Connection c = cbd.obtemConexao()){
-            DefaultListModel<String> model = new DefaultListModel<>();
-            list.setModel(model);
-            String sql = "select nome from products where nome like '"+searchField.getText()+"%'"+"order by nome";
+            String sql = "select * from products where id = ?";
             PreparedStatement ps = c.prepareStatement(sql);
+            ps.setString(1, productId);
             ResultSet rs = ps.executeQuery();
-            if (rs.next() == false || searchField.getText().isEmpty())
-                scrollPane.setVisible(false);
-            else {
-                do
-                    model.addElement(rs.getString("nome"));
-                while (rs.next());
-                scrollPane.setSize(294, 100);
-                scrollPane.setVisible(true);
+            if (rs.next()){
+                String name = rs.getString("nome");
+                String id = rs.getString("id");
+                String description = rs.getString("descricao");
+                double price = rs.getDouble("valor");
+                BufferedImage image = ImageIO.read(new ByteArrayInputStream(rs.getBytes("imagem")));
+                return new Product(name,id,description,price,image);
             }
-        } catch (SQLException e){
-            Warning warning = new Warning("Banco de dados [ERRO]");
+        } catch (Exception e) {
+            e.printStackTrace();
+            Warning warning = new Warning("Produto indisponível!");
             warning.setVisible(true);
         }
+        return null;
     }
     
-    public void selectProduct() {
+    /*
+    if (action.equals("next")) {
+        index++;
+        if (index > products.size()-1) index = 0;
+    } else if (action.equals("previous")) {
+        index--;
+        if (index < 0) index = products.size() - 1;
+    }
+    
+    public void getSearchedProduct() {
+        index = list.getSelectedIndex();
         String sql = "select * from products where nome like '"+searchField.getText()+"%' " + "order by nome limit "+index+", 1";
         ConexaoBD cbd = new ConexaoBD(); 
         try (Connection c = cbd.obtemConexao()){
-            PreparedStatement ps = c.prepareStatement(sql);
+            PreparedStatement ps = c.prepareStatement(sql); 
             ResultSet rs = ps.executeQuery();
             if (!(rs.next() == false)) {
                 do {
-                    idField.setText(rs.getString("id"));
-                    nameField.setText(rs.getString("nome").toUpperCase());
-                    descriptionField.setText(rs.getString("descricao"));
-                    priceField.setText("R$ "+String.valueOf(rs.getDouble("valor")));
-                    Blob blob = rs.getBlob("imagem");
-                    byte[] img = blob.getBytes(1, (int) blob.length());
-                    BufferedImage image = ImageIO.read(new ByteArrayInputStream(img));
-                    ImageIcon icon = new ImageIcon(image);
-                    imageField.setIcon(icon);
+                    String id = rs.getString("id");
+                    String name = rs.getString("nome").toUpperCase();
+                    String description = rs.getString("descricao");
+                    double price = rs.getDouble("valor");
+                    byte[] imageBytes = rs.getBytes("imagem");
+                    BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageBytes));
+                    Product product = new Product(id,name,description,price,image);
                 } while (rs.next());
             }
         } catch (IOException ex) {
@@ -163,4 +192,5 @@ public class ProductServices {
             scrollPane.setVisible(false);
         } 
     };
+    */
 }

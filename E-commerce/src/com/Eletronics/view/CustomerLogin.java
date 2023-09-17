@@ -279,8 +279,8 @@ public class CustomerLogin extends javax.swing.JFrame {
         } else {
             Customer customer = new Customer();
             if (customer.logInto(userId, password)){
-                CustomerProducts customerProducts = new CustomerProducts();
-                customerProducts.setVisible(true);
+                CustomerMangement customerMangement = new CustomerMangement();
+                customerMangement.setVisible(true);
                 this.dispose();
             }
         }

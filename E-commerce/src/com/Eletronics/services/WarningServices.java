@@ -5,7 +5,7 @@
 package com.Eletronics.services;
 
 import com.Eletronics.view.AdministratorManagement;
-import com.Eletronics.view.CustomerProducts;
+import com.Eletronics.view.CustomerMangement;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -28,7 +28,7 @@ public class WarningServices {
             return true;
         else if (!(text.length()<3)) {
             if (function == 1){
-                CustomerProducts products = new CustomerProducts();
+                CustomerMangement products = new CustomerMangement();
                 products.setVisible(true);
             } else {
                 AdministratorManagement management = new AdministratorManagement();

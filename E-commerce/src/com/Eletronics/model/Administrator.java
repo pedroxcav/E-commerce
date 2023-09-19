@@ -43,8 +43,10 @@ public class Administrator extends User {
         warning.setVisible(true);
         return false;
     }
+    /*
     @Override
     protected boolean verifyUser(User user) throws Exception {
         return true;
     }
+    */
 }

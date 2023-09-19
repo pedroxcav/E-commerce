@@ -4,10 +4,12 @@
  */
 package com.Eletronics.services;
 
-import com.Eletronics.model.Product;
+import com.Eletronics.model.Item;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Image;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
@@ -18,8 +20,11 @@ import javax.swing.ListCellRenderer;
 public class CustomRendererTwo extends DefaultListCellRenderer implements ListCellRenderer<Object> {
     @Override
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean hasFocus) {
-        Product product = (Product) value;
-        setText(product.getName().toUpperCase()+"   R$"+product.getPrice());
+        Item item = (Item) value;
+        setText(item.getQuantity()+" x "+item.getProduct().getPrice()+" = R$"+item.getPrice());
+        Image image = item.getProduct().getImage().getScaledInstance(46, 60, Image.SCALE_SMOOTH);
+        setIcon(new ImageIcon(image));
+        setIconTextGap(10);
         
         if (isSelected){
             setBackground(new Color(55, 105, 140));

@@ -5,6 +5,7 @@
 package com.Eletronics.view;
 
 import com.Eletronics.model.Customer;
+import com.Eletronics.services.CustomerServices;
 import java.awt.Color;
 
 /**
@@ -279,7 +280,7 @@ public class CustomerLogin extends javax.swing.JFrame {
         } else {
             Customer customer = new Customer();
             if (customer.logInto(userId, password)){
-                CustomerMangement customerMangement = new CustomerMangement();
+                CustomerMangement customerMangement = new CustomerMangement(CustomerServices.getCustomer(userIdField.getText()));
                 customerMangement.setVisible(true);
                 this.dispose();
             }

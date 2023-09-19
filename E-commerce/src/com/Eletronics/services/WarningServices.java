@@ -4,6 +4,7 @@
  */
 package com.Eletronics.services;
 
+import com.Eletronics.model.Customer;
 import com.Eletronics.view.AdministratorManagement;
 import com.Eletronics.view.CustomerMangement;
 import javax.swing.JLabel;
@@ -27,8 +28,9 @@ public class WarningServices {
         if (function == 0)
             return true;
         else if (!(text.length()<3)) {
+            Customer customer = CustomerServices.getCustomer("recrutador");
             if (function == 1){
-                CustomerMangement products = new CustomerMangement();
+                CustomerMangement products = new CustomerMangement(customer);
                 products.setVisible(true);
             } else {
                 AdministratorManagement management = new AdministratorManagement();

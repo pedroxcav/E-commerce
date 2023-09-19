@@ -25,7 +25,6 @@ public abstract class User {
     
     public abstract void registerUser(User user);
     public abstract boolean logInto(String userId, String password);
-    protected abstract boolean verifyUser(User user) throws Exception;
     
     public String getName() {
         return name;

@@ -5,6 +5,7 @@
 package com.Eletronics.model;
 
 import com.Eletronics.repository.ConexaoBD;
+import com.Eletronics.services.CustomerServices;
 import com.Eletronics.services.Exception_Data;
 import com.Eletronics.view.Warning;
 import java.sql.Connection;
@@ -30,7 +31,7 @@ public class Customer extends User {
     @Override
     public void registerUser(User customer) {
         try {
-            if (!(this.verifyUser(customer))){
+            if (!(CustomerServices.verifyUser(customer))){
                 ConexaoBD cbd = new ConexaoBD();
                 try (Connection c = cbd.obtemConexao()) {
                     String sql = "insert into customers (nome,usuario,CPF,senha) values (?,?,?,?)";
@@ -68,38 +69,6 @@ public class Customer extends User {
         Warning warning = new Warning("Acesso incorreto!");
         warning.setVisible(true);
         return false;
-    }
-    @Override
-    protected boolean verifyUser(User customer) throws SQLException, Exception_Data {
-        ConexaoBD cbd = new ConexaoBD();
-        try (Connection c = cbd.obtemConexao()) {
-            String sql = "select usuario,CPF from customers where usuario = ? or CPF = ?";
-            PreparedStatement ps = c.prepareStatement(sql);
-            ps.setString(1, customer.getUserId());
-            ps.setString(2, customer.getCPF());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next() == false)
-                return false;
-            else {
-                int errorType = 0;
-                do {
-                    String usuario = rs.getString("usuario");
-                    String CPF = rs.getString("CPF");
-                    if (usuario.equals(customer.getUserId()))
-                        errorType++;
-                    if (CPF.equals(customer.getCPF()))
-                        errorType+=2;
-                } while (rs.next());
-                switch (errorType) {
-                    case 1:
-                        throw new Exception_Data("Usuário já utilizado!");
-                    case 2:
-                        throw new Exception_Data("Este CPF já foi utilizado!");
-                    default:
-                        throw new Exception_Data("Usuário e CPF já utilizados!");
-                }
-            }
-        }
     }
 
     public String getTelephone() {

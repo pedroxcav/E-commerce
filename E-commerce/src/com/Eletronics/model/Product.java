@@ -38,7 +38,7 @@ public class Product {
     public void registerProduct(Product product){
         ConexaoBD cbd = new ConexaoBD();
         try (Connection c = cbd.obtemConexao()){
-            if (this.verifyProduct(id)) throw new Exception_Data("ID já utilizado!");
+            if (verifyProduct(id)) throw new Exception_Data("ID já utilizado!");
             String sql = "insert into products (id,nome,descricao,valor,imagem) values (?,?,?,?,?)";
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setString(1, product.getId());
@@ -59,7 +59,7 @@ public class Product {
         }
     }
     
-    public boolean verifyProduct(String id) {
+    public static boolean verifyProduct(String id) {
         ConexaoBD cbd = new ConexaoBD();
         try (Connection c = cbd.obtemConexao()) {
             String sql = "select id from products where id = ?";
@@ -89,9 +89,6 @@ public class Product {
         return image;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
     public void setName(String name) {
         this.name = name;
     }

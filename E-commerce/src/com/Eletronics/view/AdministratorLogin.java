@@ -214,8 +214,8 @@ public class AdministratorLogin extends javax.swing.JFrame {
         } else {
             Administrator administrator = new Administrator();
             if (administrator.logInto(userId, password)){
-                AdministratorManagement management = new AdministratorManagement();
-                management.setVisible(true);
+                AdministratorMangement administratorMangement = new AdministratorMangement();
+                administratorMangement.setVisible(true);
                 this.dispose();
             }
         }

@@ -6,13 +6,13 @@ package com.Eletronics.model;
 
 import com.Eletronics.repository.ConexaoBD;
 import com.Eletronics.services.Exception_Data;
+import com.Eletronics.services.ProductServices;
 import com.Eletronics.view.Warning;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import javax.imageio.ImageIO;
 
 /**
@@ -33,12 +33,11 @@ public class Product {
         this.price = price;
         this.image = image;
     }
-    public Product() {}
     
     public void registerProduct(Product product){
         ConexaoBD cbd = new ConexaoBD();
         try (Connection c = cbd.obtemConexao()){
-            if (verifyProduct(id)) throw new Exception_Data("ID já utilizado!");
+            if (ProductServices.verifyProduct(id)) throw new Exception_Data("ID já utilizado!");
             String sql = "insert into products (id,nome,descricao,valor,imagem) values (?,?,?,?,?)";
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setString(1, product.getId());
@@ -56,20 +55,6 @@ public class Product {
         } catch (Exception e) {
             Warning warning = new Warning("Produto não cadastrado!");
             warning.setVisible(true);
-        }
-    }
-    
-    public static boolean verifyProduct(String id) {
-        ConexaoBD cbd = new ConexaoBD();
-        try (Connection c = cbd.obtemConexao()) {
-            String sql = "select id from products where id = ?";
-            PreparedStatement ps = c.prepareStatement(sql);
-            ps.setString(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) throw new Exception_Data();
-            else return false;
-        } catch (Exception e) {
-            return true;
         }
     }
 

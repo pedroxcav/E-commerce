@@ -11,6 +11,8 @@ import com.Eletronics.view.CustomerProduct;
 import com.Eletronics.view.Warning;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Connection;
@@ -40,6 +42,20 @@ public class ProductServices {
         this.priceField = priceField;
         this.quantityField = quantityField;
         this.imageField = imageField;
+    }
+    
+    public static boolean verifyProduct(String id) {
+        ConexaoBD cbd = new ConexaoBD();
+        try (Connection c = cbd.obtemConexao()) {
+            String sql = "select id from products where id = ?";
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) throw new Exception_Data();
+            else return false;
+        } catch (Exception e) {
+            return true;
+        }
     }
     
     public static DefaultListModel searchProductDatabase(String text) {
@@ -86,16 +102,13 @@ public class ProductServices {
             index--;
             if (index < 0) index = listModel.size() - 1;
         }
-        this.setProduct((Product)listModel.getElementAt(index));
-        quantityField.setText("Selecionar");
-    }
-    
-    private void setProduct(Product product){
+        Product product = (Product)listModel.getElementAt(index);
         nameField.setText(product.getName().toUpperCase());
         idField.setText(product.getId());
         descriptionField.setText(product.getDescription());
         priceField.setText("R$ "+product.getPrice());
         imageField.setIcon(new ImageIcon(product.getImage()));
+        quantityField.setText("Selecionar");
     }
     
     public static Product getProduct(String productId) {
@@ -118,5 +131,39 @@ public class ProductServices {
             warning.setVisible(true);
         }
         return null;
+    }
+    
+    public static void updateProducts(Product product) {
+        ConexaoBD cbd = new ConexaoBD();
+        try (Connection c = cbd.obtemConexao()) {
+            String sql = "update products set nome = ?, descricao = ?, valor = ?, imagem = ? where id = '"+product.getId()+"'";
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setString(1, product.getName());
+            ps.setString(2, product.getDescription());
+            ps.setDouble(3, product.getPrice());
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(product.getImage(), "png", baos);
+            Blob blob = new javax.sql.rowset.serial.SerialBlob(baos.toByteArray());
+            ps.setBlob(4, blob);
+            ps.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static void deleteProduct(Product product){
+        ConexaoBD cbd = new ConexaoBD();
+        try (Connection c = cbd.obtemConexao()) {
+            String sql = "delete from cart where produtoId = ?";
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setString(1, product.getId());
+            ps.execute();
+            sql = "delete from products where id = ?";
+            ps = c.prepareStatement(sql);
+            ps.setString(1, product.getId());
+            ps.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -4,7 +4,6 @@
  */
 package com.Eletronics.model;
 
-import static com.Eletronics.model.Product.verifyProduct;
 import com.Eletronics.repository.ConexaoBD;
 import com.Eletronics.services.Exception_Data;
 import com.Eletronics.services.ProductServices;
@@ -24,7 +23,7 @@ public class Cart {
         Item item = new Item(customer.getUserId(), product, quantity);
         ConexaoBD cbd = new ConexaoBD();
         try (Connection c = cbd.obtemConexao()){
-            if (verifyProduct(item.getItemId())) throw new Exception_Data();
+            if (ProductServices.verifyProduct(item.getItemId())) throw new Exception_Data();
             String sql = "insert into cart (id, usuario, produtoId, quantidade, valor) values (?,?,?,?,?)";
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setString(1, item.getItemId());
@@ -60,7 +59,8 @@ public class Cart {
                 } while (rs.next());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Warning warning = new  Warning("[ERRO]");
+            warning.setVisible(true);
         }
         return listModel;
     }

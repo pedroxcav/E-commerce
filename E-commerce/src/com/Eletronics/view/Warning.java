@@ -4,7 +4,10 @@
  */
 package com.Eletronics.view;
 
-import com.Eletronics.services.WarningServices;
+import com.Eletronics.model.Customer;
+import com.Eletronics.services.CustomerServices;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 /**
  *
@@ -18,12 +21,37 @@ public class Warning extends javax.swing.JFrame {
      */
     public Warning(String text) {
         initComponents();
-        WarningServices.generateWarning(text, textTwo);
+        generateWarning(text, textTwo);
     }
     public Warning(int function){
         initComponents();
         this.function = function;
-        WarningServices.generateInput(function, textOne, textTwo);
+        generateInput(function, textOne, textTwo);
+    }
+    
+    public static void generateWarning(String text, JTextField textTwo){
+        textTwo.setText(text);
+    }
+    public static void generateInput(int function, JLabel textOne, JTextField textTwo){
+        textOne.setText("INFORME SEU NOME:");
+        textTwo.setEditable(true);
+    }
+    
+    public static boolean closeWarning(int function, String text){
+        if (function == 0)
+            return true;
+        else if (!(text.length()<3)) {
+            Customer customer = CustomerServices.getCustomer("recrutador");
+            if (function == 1){
+                CustomerMangement products = new CustomerMangement(customer);
+                products.setVisible(true);
+            } else {
+                AdministratorMangement administratorMangement = new AdministratorMangement();
+                administratorMangement.setVisible(true);
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -131,7 +159,7 @@ public class Warning extends javax.swing.JFrame {
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         // TODO add your handling code here:
         String text = textTwo.getText();
-        if (WarningServices.closeWarning(this.function, text)) this.dispose();
+        if (closeWarning(this.function, text)) this.dispose();
     }//GEN-LAST:event_okButtonActionPerformed
 
     /**

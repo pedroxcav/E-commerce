@@ -34,7 +34,6 @@ public class RandomGenerator {
     }
     
     public static String generateIdProduct(){
-        Product product = new Product();
         String[] letters = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","X","Y","W","Z"};
         String id = "";
         Random ra = new Random();
@@ -43,7 +42,7 @@ public class RandomGenerator {
             for (int i=0; i<4; i++){
                 id += ra.nextInt(10);
             }
-        } while (product.verifyProduct(id));
+        } while (ProductServices.verifyProduct(id));
         return id;
     }
     

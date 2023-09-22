@@ -86,9 +86,9 @@ public class ScreenModel extends javax.swing.JFrame {
         });
 
         logOutButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        logOutButton.setForeground(java.awt.Color.pink);
+        logOutButton.setForeground(new java.awt.Color(204, 204, 204));
         logOutButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        logOutButton.setText("SAIR");
+        logOutButton.setText("VOLTAR");
         logOutButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 logOutButtonMouseClicked(evt);
@@ -178,19 +178,16 @@ public class ScreenModel extends javax.swing.JFrame {
 
     private void logOutButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutButtonMouseEntered
         // TODO add your handling code here:
-        logOutButton.setForeground(Color.red);
+        logOutButton.setForeground(Color.WHITE);
     }//GEN-LAST:event_logOutButtonMouseEntered
 
     private void logOutButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutButtonMouseExited
         // TODO add your handling code here:
-        logOutButton.setForeground(Color.pink);
+        logOutButton.setForeground(Color.LIGHT_GRAY);
     }//GEN-LAST:event_logOutButtonMouseExited
 
     private void logOutButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutButtonMouseClicked
         // TODO add your handling code here:
-        HomeScreen home = new HomeScreen();
-        home.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_logOutButtonMouseClicked
 
     /**

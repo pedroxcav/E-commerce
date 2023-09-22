@@ -5,6 +5,9 @@
 package com.Eletronics.model;
 
 import com.Eletronics.repository.ConexaoBD;
+import com.Eletronics.services.AdministratorServices;
+import com.Eletronics.services.CustomerServices;
+import com.Eletronics.services.Exception_Data;
 import com.Eletronics.view.Warning;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,12 +20,38 @@ import java.sql.SQLException;
  */
 public class Administrator extends User {
     
-    public Administrator(){}
+    public Administrator(String name, String userId, String CPF, String password) {
+        super(name, userId, CPF, password);
+    }
+    public Administrator(){
+        super();
+    }
     
     @Override
-    public void registerUser(User user) {
-
+    public void registerUser(User administrator) {
+        try {
+            if (!(AdministratorServices.verifyAdministrator(administrator))){
+                ConexaoBD cbd = new ConexaoBD();
+                try (Connection c = cbd.obtemConexao()) {
+                    String sql = "insert into administrators (nome,usuario,CPF,senha) values (?,?,?,?)";
+                    PreparedStatement ps = c.prepareStatement(sql);
+                    ps.setString(1, administrator.getName());
+                    ps.setString(2, administrator.getUserId());
+                    ps.setString(3, administrator.getCPF());
+                    ps.setString(4, administrator.getPassword());
+                    ps.execute();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Warning warning = new Warning("Não foi possível cadastrar.");
+            warning.setVisible(true);
+        } catch (Exception_Data e) {
+            Warning warning = new Warning(e.getMessage());
+            warning.setVisible(true);
+        }
     }
+    
     @Override
     public boolean logInto(String userId, String password) {
         ConexaoBD cbd = new ConexaoBD();
@@ -43,10 +72,4 @@ public class Administrator extends User {
         warning.setVisible(true);
         return false;
     }
-    /*
-    @Override
-    protected boolean verifyUser(User user) throws Exception {
-        return true;
-    }
-    */
 }

@@ -7,7 +7,6 @@ package com.Eletronics.view;
 import com.Eletronics.model.Cart;
 import com.Eletronics.model.Customer;
 import com.Eletronics.model.Item;
-import com.Eletronics.services.CartServices;
 import com.Eletronics.services.CustomRendererTwo;
 import java.awt.Color;
 import javax.swing.DefaultListModel;
@@ -33,7 +32,7 @@ public class CustomerCart extends javax.swing.JFrame {
         deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/trashIcon.png")));
         cartList.setModel(Cart.getCart("pedroxcav"));
         updateButton.setVisible(false);
-        priceField.setText("R$ "+CartServices.getTotalPrice(cartList));
+        priceField.setText("R$ "+Cart.getTotalPrice(cartList));
     }
     
     public CustomerCart(Customer customer) {
@@ -47,7 +46,7 @@ public class CustomerCart extends javax.swing.JFrame {
         deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/trashIcon.png")));
         cartList.setModel(Cart.getCart(customer.getUserId()));
         updateButton.setVisible(false);
-        priceField.setText("R$ "+CartServices.getTotalPrice(cartList));
+        priceField.setText("R$ "+Cart.getTotalPrice(cartList));
         this.customer = customer;
     }
     
@@ -404,7 +403,7 @@ public class CustomerCart extends javax.swing.JFrame {
     private void cartListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cartListMouseClicked
         // TODO add your handling code here:
         if (cartList.getModel().getSize() != 0) {
-            nameField.setText(CartServices.selectItem(cartList, nameField));
+            nameField.setText(Cart.selectItem(cartList, nameField));
             quantityField.setText("Alterar");
             updateButton.setVisible(false);
         }
@@ -444,12 +443,12 @@ public class CustomerCart extends javax.swing.JFrame {
         Item item = (Item) listModel.getElementAt(cartList.getSelectedIndex());
         item.setQuantity(Integer.parseInt(quantityField.getText()));
         
-        CartServices.updateItem(item);
+        Cart.updateItem(item);
         
         quantityField.setText("Alterar");
         updateButton.setVisible(false);
         cartList.setModel(Cart.getCart(this.customer.getUserId()));
-        priceField.setText("R$ "+CartServices.getTotalPrice(cartList));
+        priceField.setText("R$ "+Cart.getTotalPrice(cartList));
         nameField.setText("SELECIONE");
     }//GEN-LAST:event_updateButtonActionPerformed
 
@@ -459,12 +458,12 @@ public class CustomerCart extends javax.swing.JFrame {
             DefaultListModel listModel = (DefaultListModel) cartList.getModel();
             Item item = (Item) listModel.getElementAt(cartList.getSelectedIndex());
 
-            CartServices.deleteItem(item);
+            Cart.deleteItem(item);
 
             quantityField.setText("Alterar");
             updateButton.setVisible(false);
             cartList.setModel(Cart.getCart(this.customer.getUserId()));
-            priceField.setText("R$ "+CartServices.getTotalPrice(cartList));
+            priceField.setText("R$ "+Cart.getTotalPrice(cartList));
             nameField.setText("SELECIONE");
         } else {
             Warning warning = new Warning("Selecione um item!");

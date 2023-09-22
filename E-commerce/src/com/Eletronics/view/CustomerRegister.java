@@ -228,7 +228,7 @@ public class CustomerRegister extends javax.swing.JFrame {
         String CPF = CPFField.getText();
         String password = passwordField.getText();
         
-        if (name.length()==0 || userId.length()==0 || CPF.length()==0 || password.length()==0) {
+        if (name.isEmpty() || userId.isEmpty() || CPF.length() != 11 || password.isEmpty()) {
             Warning warning = new Warning("Informe os dados corretamente!");
             warning.setVisible(true);
         } else {

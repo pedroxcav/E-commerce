@@ -557,6 +557,9 @@ public class AdministratorMangement extends javax.swing.JFrame {
 
     private void customerButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_customerButtonMouseClicked
         // TODO add your handling code here:
+        AdministratorCustomer administratorCustomer = new AdministratorCustomer();
+        administratorCustomer.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_customerButtonMouseClicked
 
     private void customerButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_customerButtonMouseEntered
@@ -581,6 +584,9 @@ public class AdministratorMangement extends javax.swing.JFrame {
 
     private void administratorButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_administratorButtonMouseClicked
         // TODO add your handling code here:
+        AdministratorProfiles administratorProfiles = new AdministratorProfiles();
+        administratorProfiles.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_administratorButtonMouseClicked
 
     /**

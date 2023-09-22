@@ -31,7 +31,7 @@ public class Customer extends User {
     @Override
     public void registerUser(User customer) {
         try {
-            if (!(CustomerServices.verifyUser(customer))){
+            if (!(CustomerServices.verifyCustomer(customer))){
                 ConexaoBD cbd = new ConexaoBD();
                 try (Connection c = cbd.obtemConexao()) {
                     String sql = "insert into customers (nome,usuario,CPF,senha) values (?,?,?,?)";

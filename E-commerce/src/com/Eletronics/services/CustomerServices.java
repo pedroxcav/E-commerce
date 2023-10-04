@@ -1,124 +1,102 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.Eletronics.services;
 
 import com.Eletronics.model.Customer;
+import com.Eletronics.model.Item;
+import com.Eletronics.model.Product;
 import com.Eletronics.model.User;
-import com.Eletronics.repository.ConexaoBD;
-import com.Eletronics.view.Warning;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import com.Eletronics.repository.CartDAO;
+import com.Eletronics.repository.CustomerDAO;
+import com.Eletronics.services.exceptions.Exception_Data;
+import com.Eletronics.services.tools.Warning;
 import java.sql.SQLException;
 import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
+import javax.swing.JList;
 
-/**
- *
- * @author pedro
- */
 public class CustomerServices {
     
-    public static boolean verifyCustomer(User customer) throws SQLException, Exception_Data {
-        ConexaoBD cbd = new ConexaoBD();
-        try (Connection c = cbd.obtemConexao()) {
-            String sql = "select usuario,CPF from customers where usuario = ? or CPF = ?";
-            PreparedStatement ps = c.prepareStatement(sql);
-            ps.setString(1, customer.getUserId());
-            ps.setString(2, customer.getCPF());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next() == false)
-                return false;
-            else {
-                int errorType = 0;
-                do {
-                    String usuario = rs.getString("usuario");
-                    String CPF = rs.getString("CPF");
-                    if (usuario.equals(customer.getUserId()))
-                        errorType++;
-                    if (CPF.equals(customer.getCPF()))
-                        errorType+=2;
-                } while (rs.next());
-                switch (errorType) {
-                    case 1:
-                        throw new Exception_Data("Usuário já utilizado!");
-                    case 2:
-                        throw new Exception_Data("Este CPF já foi utilizado!");
-                    default:
-                        throw new Exception_Data("Usuário e CPF já utilizados!");
-                }
-            }
+    public static void addToCart(Customer customer, String productId, int quantity){
+        try {
+            Product product = ProductServices.getProduct(productId);
+            Item item = new Item(customer.getUserId(), product, quantity);
+            CartDAO.addToDatabase(item);
+        } catch (SQLException e) {
+            Warning warning = new Warning("Erro ao adicionar.");
+            warning.setVisible(true);
         }
     }
     
-    public static Customer getCustomer(String customerId) {
-        ConexaoBD cbd = new ConexaoBD();
-        try (Connection c = cbd.obtemConexao()){
-            String sql = "select * from customers where usuario = ?";
-            PreparedStatement ps = c.prepareStatement(sql);
-            ps.setString(1, customerId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()){
-                String name = rs.getString("nome");
-                String id = rs.getString("usuario");
-                String CPF = rs.getString("CPF");
-                int password = rs.getInt("senha");
-                return new Customer(name,id,CPF,String.valueOf(password));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Warning warning = new Warning("Usuário indisponível!");
-            warning.setVisible(true);
+    public static String selectItem(JList cartList, JLabel nameField){
+        if (cartList.getModel().getSize() != 0) {
+            DefaultListModel listModel = (DefaultListModel) cartList.getModel();
+            Item item = (Item) listModel.get(cartList.getSelectedIndex());
+            String name = item.getProduct().getName().toUpperCase();
+            return name;
         }
         return null;
     }
     
+    public static boolean verifyUser(User customer) throws Exception_Data {
+        try {
+            if (CustomerDAO.verifyId(customer) && CustomerDAO.verifyCPF(customer))
+                throw new Exception_Data("Usuário e CPF já utilizados!");
+            else if (CustomerDAO.verifyId(customer))
+                throw new Exception_Data("Usuário já utilizado!");
+            else if (CustomerDAO.verifyCPF(customer))
+                throw new Exception_Data("CPF já cadastrado!");
+            return false;
+        } catch (SQLException e) {
+            Warning warning = new Warning("Erro desconhecido.");
+            warning.setVisible(true);
+            return true;
+        }
+    }
+    
+    public static Customer getUser(String customerId) {
+        try {
+            return CustomerDAO.getUser(customerId);
+        } catch (SQLException e) {
+            Warning warning = new Warning("Erro desconhecido.");
+            warning.setVisible(true);
+            return null;
+        }
+    }
+    
     public static DefaultListModel searchCustomerDatabase(String text){
-        DefaultListModel listModel = new DefaultListModel();
-        ConexaoBD cbd = new ConexaoBD();
-        try (Connection c = cbd.obtemConexao()) {
-            String sql = "select * from customers where usuario like '"+text+"%'";
-            PreparedStatement ps = c.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                do {
-                    String name = rs.getString("nome");
-                    String id = rs.getString("usuario");
-                    String CPF = rs.getString("CPF");
-                    String password = rs.getString("senha");
-                    listModel.addElement(new Customer(name,id,CPF,password));
-                } while (rs.next());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return listModel;
-    }
-    
-    public static void deleteCustomer(Customer customer){
-        ConexaoBD cbd = new ConexaoBD();
-        try (Connection c = cbd.obtemConexao()){
-            String sql = "delete from customers where usuario = ?";
-            PreparedStatement ps = c.prepareStatement(sql);
-            ps.setString(1, customer.getUserId());
-            ps.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
+        try {
+            return CustomerDAO.getDatabase(text);
+        } catch (SQLException e) {
+            Warning warning = new Warning("Erro desconhecido.");
+            warning.setVisible(true);
+            return null;
         }
     }
     
-    public static void updateCustomers(Customer customer) {
-        ConexaoBD cbd = new ConexaoBD();
-        try (Connection c = cbd.obtemConexao()) {
-            String sql = "update customers set nome = ?, usuario = ?, senha = ? where CPF = '"+customer.getCPF()+"'";
-            PreparedStatement ps = c.prepareStatement(sql);
-            ps.setString(1, customer.getName());
-            ps.setString(2, customer.getUserId());
-            ps.setString(3, customer.getPassword());
-            ps.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
+    public static DefaultListModel searchCustomerDatabase(){
+        try {
+            return CustomerDAO.getDatabase("");
+        } catch (SQLException e) {
+            Warning warning = new Warning("Erro desconhecido.");
+            warning.setVisible(true);
+            return null;
+        }
+    }
+    
+    public static void deleteUser(Customer customer){
+        try {
+            CustomerDAO.delete(customer);
+        } catch (SQLException e) {
+            Warning warning = new Warning("Erro ao excluir.");
+            warning.setVisible(true);
+        }
+    }
+    
+    public static void updateUser(Customer customer) throws Exception_Data {
+        try {
+            CustomerDAO.update(customer);
+        } catch (SQLException e) {
+            Warning warning = new Warning("Erro ao atualizar.");
+            warning.setVisible(true);
         }
     }
 }

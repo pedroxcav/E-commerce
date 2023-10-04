@@ -1,33 +1,37 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.Eletronics.view;
 
 import com.Eletronics.model.Administrator;
 import com.Eletronics.services.AdministratorServices;
-import com.Eletronics.services.CustomRendererFor;
-import com.Eletronics.services.RandomGenerator;
+import com.Eletronics.services.renderers.CustomRendererFor;
+import com.Eletronics.services.tools.RandomGenerator;
+import com.Eletronics.services.tools.Warning;
 import java.awt.Color;
 import javax.swing.DefaultListModel;
 
-/**
- *
- * @author pedro
- */
-public class AdministratorProfiles extends javax.swing.JFrame {
-
-    /**
-     * Creates new form AdministratorManagement
-     */
-    public AdministratorProfiles() {
+public class AdministratorManagers extends javax.swing.JFrame {
+    private Administrator administrator;
+    
+    public AdministratorManagers() {
         super("ELETRONICS");
         initComponents();
+        deleteButton.setVisible(false);
         getContentPane().setBackground(Color.WHITE);
+        administratorList.setCellRenderer(new CustomRendererFor());
+        administratorList.setModel(AdministratorServices.getDatabase());
         logoTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/logoTop.png")));
         generator.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/padlock.png")));
+    }
+    
+    public AdministratorManagers(Administrator administrator) {
+        super("ELETRONICS");
+        initComponents();
+        deleteButton.setVisible(false);
+        this.administrator = administrator;
+        getContentPane().setBackground(Color.WHITE);
         administratorList.setCellRenderer(new CustomRendererFor());
-        administratorList.setModel(AdministratorServices.getAdministratorDatabase());
+        administratorList.setModel(AdministratorServices.getDatabase());
+        logoTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/logoTop.png")));
+        generator.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/padlock.png")));
     }
 
     /**
@@ -84,6 +88,9 @@ public class AdministratorProfiles extends javax.swing.JFrame {
         profileButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         profileButton.setText("MEU PERFIL");
         profileButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                profileButtonMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 profileButtonMouseEntered(evt);
             }
@@ -152,7 +159,7 @@ public class AdministratorProfiles extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(40, 40, 40)
                 .addComponent(profileButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 187, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
                 .addComponent(backButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(aboutButton)
@@ -247,6 +254,11 @@ public class AdministratorProfiles extends javax.swing.JFrame {
         administratorList.setBorder(null);
         administratorList.setForeground(new java.awt.Color(0, 0, 0));
         administratorList.setFixedCellHeight(30);
+        administratorList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                administratorListMouseClicked(evt);
+            }
+        });
         scrollPane.setViewportView(administratorList);
 
         deleteButton.setBackground(new java.awt.Color(0, 0, 0));
@@ -267,58 +279,58 @@ public class AdministratorProfiles extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel6)
+                    .addComponent(scrollPane)
+                    .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(6, 6, 6)
                         .addComponent(jLabel5))
-                    .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(userIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CPFField, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(RegisterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(8, 8, 8)
-                            .addComponent(generator, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(40, 40, 40)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel6)
-                    .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
-                    .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(40, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8)
+                        .addComponent(generator, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nameField)
+                    .addComponent(userIdField)
+                    .addComponent(CPFField)
+                    .addComponent(RegisterButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(50, 50, 50))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel5))
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(RegisterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addComponent(jLabel5)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(userIdField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(CPFField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(15, 15, 15)
-                                .addComponent(generator, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(RegisterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(56, Short.MAX_VALUE))
+                                .addComponent(generator, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         pack();
@@ -347,7 +359,7 @@ public class AdministratorProfiles extends javax.swing.JFrame {
 
     private void backButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backButtonMouseClicked
         // TODO add your handling code here:
-        AdministratorMangement administratorMangement = new AdministratorMangement();
+        AdministratorMangement administratorMangement = new AdministratorMangement(this.administrator);
         administratorMangement.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backButtonMouseClicked
@@ -382,9 +394,9 @@ public class AdministratorProfiles extends javax.swing.JFrame {
             Warning warning = new Warning("Informe os dados corretamente!");
             warning.setVisible(true);
         } else {
-            Administrator administrator = new Administrator(name,userId,CPF,password);
-            administrator.registerUser(administrator);
-            administratorList.setModel(AdministratorServices.getAdministratorDatabase());
+            Administrator manager = new Administrator(name,userId,CPF,password);
+            this.administrator.registerUser(manager);
+            administratorList.setModel(AdministratorServices.getDatabase());
         }
         nameField.setText("");
         userIdField.setText("");
@@ -409,13 +421,25 @@ public class AdministratorProfiles extends javax.swing.JFrame {
         if (administratorList.getSelectedIndex() != -1) {
             DefaultListModel listModel = (DefaultListModel) administratorList.getModel();
             Administrator administrator = (Administrator) listModel.getElementAt(administratorList.getSelectedIndex());
-            AdministratorServices.deleteAdministrator(administrator);
-            administratorList.setModel(AdministratorServices.getAdministratorDatabase());
+            AdministratorServices.deleteUser(administrator);
+            administratorList.setModel(AdministratorServices.getDatabase());
         } else {
             Warning warning = new Warning("Selecione um perfil!");
             warning.setVisible(true);
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void administratorListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_administratorListMouseClicked
+        // TODO add your handling code here:
+        deleteButton.setVisible(true);
+    }//GEN-LAST:event_administratorListMouseClicked
+
+    private void profileButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileButtonMouseClicked
+        // TODO add your handling code here:
+        AdministratorProfile administratorProfile = new AdministratorProfile(this.administrator);
+        administratorProfile.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_profileButtonMouseClicked
 
     /**
      * @param args the command line arguments
@@ -434,14 +458,22 @@ public class AdministratorProfiles extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdministratorProfiles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdministratorManagers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdministratorProfiles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdministratorManagers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdministratorProfiles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdministratorManagers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdministratorProfiles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdministratorManagers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -454,7 +486,7 @@ public class AdministratorProfiles extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdministratorProfiles().setVisible(true);
+                new AdministratorManagers().setVisible(true);
             }
         });
     }

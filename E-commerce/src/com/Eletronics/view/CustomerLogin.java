@@ -6,6 +6,7 @@ package com.Eletronics.view;
 
 import com.Eletronics.model.Customer;
 import com.Eletronics.services.CustomerServices;
+import com.Eletronics.services.tools.Warning;
 import java.awt.Color;
 
 /**
@@ -280,9 +281,12 @@ public class CustomerLogin extends javax.swing.JFrame {
         } else {
             Customer customer = new Customer();
             if (customer.logInto(userId, password)){
-                CustomerMangement customerMangement = new CustomerMangement(CustomerServices.getCustomer(userIdField.getText()));
+                CustomerMangement customerMangement = new CustomerMangement(CustomerServices.getUser(userIdField.getText()));
                 customerMangement.setVisible(true);
                 this.dispose();
+            } else {
+                Warning warning = new Warning("Acesso incorreto.");
+                warning.setVisible(true);
             }
         }
         userIdField.setText("");

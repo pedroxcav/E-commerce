@@ -1,6 +1,6 @@
 package com.Eletronics.repository;
 
-import com.Eletronics.view.Warning;
+import com.Eletronics.services.tools.Warning;
 import java.sql.Connection;
 import java.sql.DriverManager;
 

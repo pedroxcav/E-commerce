@@ -1,32 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.Eletronics.services;
 
 import com.Eletronics.model.Customer;
 import com.Eletronics.model.Product;
-import com.Eletronics.repository.ConexaoBD;
+import com.Eletronics.repository.ProductDAO;
+import com.Eletronics.services.exceptions.Exception_Data;
 import com.Eletronics.view.CustomerProduct;
-import com.Eletronics.view.Warning;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.sql.Blob;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Connection;
-import javax.imageio.ImageIO;
+import com.Eletronics.services.tools.Warning;
+import java.io.IOException;
+import java.sql.SQLException;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
-/**
- *
- * @author pedro
- */
 public class ProductServices {
     private final JLabel nameField;
     private final JLabel idField;
@@ -45,42 +32,35 @@ public class ProductServices {
     }
     
     public static boolean verifyProduct(String id) {
-        ConexaoBD cbd = new ConexaoBD();
-        try (Connection c = cbd.obtemConexao()) {
-            String sql = "select id from products where id = ?";
-            PreparedStatement ps = c.prepareStatement(sql);
-            ps.setString(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) throw new Exception_Data();
-            else return false;
-        } catch (Exception e) {
+        try {
+            return ProductDAO.verify(id);
+        } catch (SQLException e) {
+            Warning warning = new Warning("Erro desconhecido.");
+            warning.setVisible(true);
+            return true;
+        } catch (Exception_Data e) {
             return true;
         }
     }
     
-    public static DefaultListModel searchProductDatabase(String text) {
-        DefaultListModel listModel = new DefaultListModel();
-        listModel.clear();
-        ConexaoBD cbd = new ConexaoBD();
-        try (Connection c = cbd.obtemConexao()){
-            String sql = "select * from products where nome like '"+text+"%'";
-            PreparedStatement ps = c.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()){
-                do {
-                    String id = rs.getString("id");
-                    String name = rs.getString("nome");
-                    String description = rs.getString("descricao");
-                    double price = rs.getDouble("valor");
-                    BufferedImage image = ImageIO.read(new ByteArrayInputStream(rs.getBytes("imagem")));
-                    listModel.addElement(new Product(id, name, description, price, image));
-                } while (rs.next());
-            }
-        } catch (Exception e) {
-            Warning warning = new Warning("[ERRO]");
+    public static DefaultListModel getDatabase(String text) {
+        try {
+            return ProductDAO.getDatabase(text);
+        } catch (SQLException | IOException e) {
+            Warning warning = new Warning("Erro desconhecido.");
             warning.setVisible(true);
+            return null;
         }
-        return listModel;
+    }
+    
+    public static DefaultListModel getDatabase() {
+        try {
+            return ProductDAO.getDatabase("");
+        } catch (SQLException | IOException e) {
+            Warning warning = new Warning("Erro desconhecido.");
+            warning.setVisible(true);
+            return null;
+        }
     }
     
     public static void showProduct(JFrame screen, JList list, Customer customer){
@@ -94,7 +74,7 @@ public class ProductServices {
     private int index = 0;
     
     public void moveProduct(String action) {
-        DefaultListModel listModel = ProductServices.searchProductDatabase("");
+        DefaultListModel listModel = ProductServices.getDatabase();
         if (action.equals("next")) {
             index++;
             if (index > listModel.size()-1) index = 0;
@@ -112,58 +92,30 @@ public class ProductServices {
     }
     
     public static Product getProduct(String productId) {
-        ConexaoBD cbd = new ConexaoBD();
-        try (Connection c = cbd.obtemConexao()){
-            String sql = "select * from products where id = ?";
-            PreparedStatement ps = c.prepareStatement(sql);
-            ps.setString(1, productId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()){
-                String id = rs.getString("id");
-                String name = rs.getString("nome");
-                String description = rs.getString("descricao");
-                double price = rs.getDouble("valor");
-                BufferedImage image = ImageIO.read(new ByteArrayInputStream(rs.getBytes("imagem")));
-                return new Product(id,name,description,price,image);
-            }
-        } catch (Exception e) {
-            Warning warning = new Warning("Produto indisponível!");
+        try {
+            return ProductDAO.get(productId);
+        } catch (SQLException | IOException e) {
+            Warning warning = new Warning("Erro desconhecido.");
             warning.setVisible(true);
+            return null;
         }
-        return null;
     }
     
     public static void updateProducts(Product product) {
-        ConexaoBD cbd = new ConexaoBD();
-        try (Connection c = cbd.obtemConexao()) {
-            String sql = "update products set nome = ?, descricao = ?, valor = ?, imagem = ? where id = '"+product.getId()+"'";
-            PreparedStatement ps = c.prepareStatement(sql);
-            ps.setString(1, product.getName());
-            ps.setString(2, product.getDescription());
-            ps.setDouble(3, product.getPrice());
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(product.getImage(), "png", baos);
-            Blob blob = new javax.sql.rowset.serial.SerialBlob(baos.toByteArray());
-            ps.setBlob(4, blob);
-            ps.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
+        try {
+            ProductDAO.update(product);
+        } catch (SQLException | IOException ex) {
+            Warning warning = new Warning("Erro ao atualizar.");
+            warning.setVisible(true);
         }
     }
     
     public static void deleteProduct(Product product){
-        ConexaoBD cbd = new ConexaoBD();
-        try (Connection c = cbd.obtemConexao()) {
-            String sql = "delete from cart where produtoId = ?";
-            PreparedStatement ps = c.prepareStatement(sql);
-            ps.setString(1, product.getId());
-            ps.execute();
-            sql = "delete from products where id = ?";
-            ps = c.prepareStatement(sql);
-            ps.setString(1, product.getId());
-            ps.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
+        try {
+            ProductDAO.delete(product);
+        } catch (SQLException e) {
+            Warning warning = new Warning("Erro ao excluir.");
+            warning.setVisible(true);
         }
     }
 }

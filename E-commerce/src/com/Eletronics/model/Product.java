@@ -1,24 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.Eletronics.model;
 
-import com.Eletronics.repository.ConexaoBD;
-import com.Eletronics.services.Exception_Data;
+import com.Eletronics.repository.ProductDAO;
 import com.Eletronics.services.ProductServices;
-import com.Eletronics.view.Warning;
+import com.Eletronics.services.tools.Warning;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.sql.Blob;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import javax.imageio.ImageIO;
+import java.io.IOException;
+import java.sql.SQLException;
 
-/**
- *
- * @author pedro
- */
 public class Product {
     private String id;
     private String name;
@@ -35,25 +23,11 @@ public class Product {
     }
     
     public void registerProduct(Product product){
-        ConexaoBD cbd = new ConexaoBD();
-        try (Connection c = cbd.obtemConexao()){
-            if (ProductServices.verifyProduct(id)) throw new Exception_Data("ID já utilizado!");
-            String sql = "insert into products (id,nome,descricao,valor,imagem) values (?,?,?,?,?)";
-            PreparedStatement ps = c.prepareStatement(sql);
-            ps.setString(1, product.getId());
-            ps.setString(2, product.getName());
-            ps.setString(3, product.getDescription());
-            ps.setDouble(4, product.getPrice());
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(product.getImage(), "png", baos);
-            Blob blob = new javax.sql.rowset.serial.SerialBlob(baos.toByteArray());
-            ps.setBlob(5, blob);
-            ps.execute();
-        } catch (Exception_Data e) {
-            Warning warning = new  Warning(e.getMessage());
-            warning.setVisible(true);
-        } catch (Exception e) {
-            Warning warning = new Warning("Produto não cadastrado!");
+        try {
+            if (!(ProductServices.verifyProduct(product.getId())))
+                ProductDAO.register(product);
+        } catch (SQLException | IOException e) {
+            Warning warning = new Warning("Erro ao cadastrar.");
             warning.setVisible(true);
         }
     }

@@ -1,24 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-package com.Eletronics.view;
+package com.Eletronics.services.tools;
 
+import com.Eletronics.view.*;
 import com.Eletronics.model.Customer;
 import com.Eletronics.services.CustomerServices;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-/**
- *
- * @author pedro
- */
 public class Warning extends javax.swing.JFrame {
     private int function = 0;
     
-    /**
-     * Creates new form Warning
-     */
     public Warning(String text) {
         initComponents();
         generateWarning(text, textTwo);
@@ -41,7 +31,7 @@ public class Warning extends javax.swing.JFrame {
         if (function == 0)
             return true;
         else if (!(text.length()<3)) {
-            Customer customer = CustomerServices.getCustomer("recrutador");
+            Customer customer = CustomerServices.getUser("recrutador");
             if (function == 1){
                 CustomerMangement products = new CustomerMangement(customer);
                 products.setVisible(true);
@@ -187,6 +177,7 @@ public class Warning extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Warning.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

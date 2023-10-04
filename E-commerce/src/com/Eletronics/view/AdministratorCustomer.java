@@ -4,12 +4,12 @@
  */
 package com.Eletronics.view;
 
+import com.Eletronics.model.Administrator;
 import com.Eletronics.model.Customer;
-import com.Eletronics.model.Product;
-import com.Eletronics.services.CustomRendererFive;
+import com.Eletronics.services.renderers.CustomRendererFive;
 import com.Eletronics.services.CustomerServices;
-import com.Eletronics.services.Exception_Data;
-import com.Eletronics.services.ProductServices;
+import com.Eletronics.services.exceptions.Exception_Data;
+import com.Eletronics.services.tools.Warning;
 import java.awt.Color;
 import javax.swing.DefaultListModel;
 
@@ -18,19 +18,33 @@ import javax.swing.DefaultListModel;
  * @author pedro
  */
 public class AdministratorCustomer extends javax.swing.JFrame {
-
+    private Administrator administrator;
     /**
      * Creates new form AdministratorManagement
      */
     public AdministratorCustomer() {
         super("ELETRONICS");
         initComponents();
+        deleteButton.setVisible(false);
         updateButton.setVisible(false);
-        customerList.setCellRenderer(new CustomRendererFive());
         getContentPane().setBackground(Color.WHITE);
+        customerList.setCellRenderer(new CustomRendererFive());
         logoTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/logoTop.png")));
-        customerList.setModel(CustomerServices.searchCustomerDatabase(""));
+        customerList.setModel(CustomerServices.searchCustomerDatabase());
     }
+    
+    public AdministratorCustomer(Administrator administrator) {
+        super("ELETRONICS");
+        initComponents();
+        this.administrator = administrator;
+        deleteButton.setVisible(false);
+        updateButton.setVisible(false);
+        getContentPane().setBackground(Color.WHITE);
+        customerList.setCellRenderer(new CustomRendererFive());
+        logoTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/logoTop.png")));
+        customerList.setModel(CustomerServices.searchCustomerDatabase());
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -53,13 +67,16 @@ public class AdministratorCustomer extends javax.swing.JFrame {
         scrollPane = new javax.swing.JScrollPane();
         customerList = new javax.swing.JList<>();
         searchField = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         nameField = new javax.swing.JTextField();
         userIdField = new javax.swing.JTextField();
-        CPFField = new javax.swing.JTextField();
         passwordField = new javax.swing.JTextField();
+        numberField = new javax.swing.JTextField();
         updateButton = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        addressField = new javax.swing.JTextField();
 
         jLabel2.setFont(new java.awt.Font("Nortar", 0, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
@@ -85,6 +102,9 @@ public class AdministratorCustomer extends javax.swing.JFrame {
         profileButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         profileButton.setText("MEU PERFIL");
         profileButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                profileButtonMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 profileButtonMouseEntered(evt);
             }
@@ -153,7 +173,7 @@ public class AdministratorCustomer extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(40, 40, 40)
                 .addComponent(profileButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(logOutButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(aboutButton)
@@ -173,6 +193,7 @@ public class AdministratorCustomer extends javax.swing.JFrame {
         customerList.setBackground(new java.awt.Color(255, 255, 255));
         customerList.setBorder(null);
         customerList.setForeground(new java.awt.Color(0, 0, 0));
+        customerList.setFixedCellHeight(30);
         customerList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 customerListMouseClicked(evt);
@@ -189,14 +210,14 @@ public class AdministratorCustomer extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(0, 0, 0));
-        jButton1.setFont(new java.awt.Font("Nortar", 0, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("EXCLUIR");
-        jButton1.setBorder(null);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        deleteButton.setBackground(new java.awt.Color(0, 0, 0));
+        deleteButton.setFont(new java.awt.Font("Nortar", 0, 14)); // NOI18N
+        deleteButton.setForeground(new java.awt.Color(255, 255, 255));
+        deleteButton.setText("EXCLUIR");
+        deleteButton.setBorder(null);
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                deleteButtonActionPerformed(evt);
             }
         });
 
@@ -222,22 +243,22 @@ public class AdministratorCustomer extends javax.swing.JFrame {
             }
         });
 
-        CPFField.setEditable(false);
-        CPFField.setBackground(new java.awt.Color(255, 255, 255));
-        CPFField.setForeground(new java.awt.Color(0, 0, 0));
-        CPFField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "CPF:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
-        CPFField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                CPFFieldKeyReleased(evt);
-            }
-        });
-
         passwordField.setBackground(new java.awt.Color(255, 255, 255));
         passwordField.setForeground(new java.awt.Color(0, 0, 0));
         passwordField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "senha:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
         passwordField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 passwordFieldKeyReleased(evt);
+            }
+        });
+
+        numberField.setBackground(new java.awt.Color(255, 255, 255));
+        numberField.setForeground(new java.awt.Color(0, 0, 0));
+        numberField.setActionCommand("<Not Set>");
+        numberField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "celular:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
+        numberField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                numberFieldKeyReleased(evt);
             }
         });
 
@@ -252,6 +273,28 @@ public class AdministratorCustomer extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setFont(new java.awt.Font("Nortar", 1, 11)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setText("CLIENTES");
+
+        jLabel7.setFont(new java.awt.Font("Nortar", 1, 11)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel7.setText("ATUALIZAR");
+
+        addressField.setBackground(new java.awt.Color(255, 255, 255));
+        addressField.setForeground(new java.awt.Color(0, 0, 0));
+        addressField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "endereço:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
+        addressField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addressFieldActionPerformed(evt);
+            }
+        });
+        addressField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                addressFieldKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -260,46 +303,58 @@ public class AdministratorCustomer extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(searchField)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                    .addComponent(searchField, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                    .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6)))
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel5)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7))
                     .addComponent(nameField)
-                    .addComponent(userIdField, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                    .addComponent(CPFField, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                    .addComponent(passwordField, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                    .addComponent(updateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(108, Short.MAX_VALUE))
+                    .addComponent(userIdField)
+                    .addComponent(passwordField)
+                    .addComponent(numberField)
+                    .addComponent(updateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(addressField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
+                .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, 0)
+                        .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(7, 7, 7)
+                        .addGap(0, 0, 0)
                         .addComponent(userIdField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(CPFField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, 0)
+                        .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(numberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(addressField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         pack();
@@ -338,7 +393,7 @@ public class AdministratorCustomer extends javax.swing.JFrame {
 
     private void logOutButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutButtonMouseClicked
         // TODO add your handling code here:
-        AdministratorMangement administratorMnagement = new AdministratorMangement();
+        AdministratorMangement administratorMnagement = new AdministratorMangement(this.administrator);
         administratorMnagement.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_logOutButtonMouseClicked
@@ -350,8 +405,11 @@ public class AdministratorCustomer extends javax.swing.JFrame {
             Customer customer = (Customer) listModel.getElementAt(customerList.getSelectedIndex());
             nameField.setText(customer.getName());
             userIdField.setText(customer.getUserId());
-            CPFField.setText(customer.getCPF());
             passwordField.setText(customer.getPassword());
+            numberField.setText(customer.getTelephone());
+            addressField.setText(customer.getAddress());
+            deleteButton.setVisible(true);
+            updateButton.setVisible(false);
         }
     }//GEN-LAST:event_customerListMouseClicked
 
@@ -360,24 +418,29 @@ public class AdministratorCustomer extends javax.swing.JFrame {
         customerList.setModel(CustomerServices.searchCustomerDatabase(searchField.getText()));
     }//GEN-LAST:event_searchFieldKeyReleased
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         // TODO add your handling code here:
         if (customerList.getSelectedIndex() != -1){
             DefaultListModel listModel = (DefaultListModel) customerList.getModel();
             Customer customer = (Customer) listModel.getElementAt(customerList.getSelectedIndex());
-            CustomerServices.deleteCustomer(customer);
-            customerList.setModel(CustomerServices.searchCustomerDatabase(""));
+            CustomerServices.deleteUser(customer);
+            customerList.setModel(CustomerServices.searchCustomerDatabase());
+            nameField.setText("");
+            userIdField.setText("");
+            passwordField.setText("");
+            numberField.setText("");
+            addressField.setText("");
         } else {
             Warning warning = new Warning("Selecione um perfil!");
             warning.setVisible(true);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_deleteButtonActionPerformed
     
     private void setUpdateButtonVisibilty(){
         if (customerList.getSelectedIndex() != -1) {
-        DefaultListModel listModel = (DefaultListModel) customerList.getModel();
+            DefaultListModel listModel = (DefaultListModel) customerList.getModel();
             Customer customer = (Customer) listModel.get(customerList.getSelectedIndex());
-            if (!nameField.getText().equals(customer.getName()) || !userIdField.getText().equals(customer.getUserId()) || !CPFField.getText().equals(customer.getCPF()) || !passwordField.getText().equals(customer.getPassword())){
+            if (!nameField.getText().equals(customer.getName()) || !userIdField.getText().equals(customer.getUserId()) || !passwordField.getText().equals(customer.getPassword()) || (!numberField.getText().equals(customer.getTelephone()) && numberField.getText().length() == 11) || (numberField.getText().isEmpty() && !String.valueOf(customer.getTelephone()).equals("null")) || !(addressField.getText().isEmpty() && String.valueOf(customer.getAddress()).equals("null")) && !addressField.getText().equals(customer.getAddress()) ) {
                 updateButton.setVisible(true);
             } else {
                 updateButton.setVisible(false);
@@ -395,32 +458,60 @@ public class AdministratorCustomer extends javax.swing.JFrame {
         this.setUpdateButtonVisibilty();
     }//GEN-LAST:event_userIdFieldKeyReleased
 
-    private void CPFFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CPFFieldKeyReleased
-        // TODO add your handling code here:
-        this.setUpdateButtonVisibilty();
-    }//GEN-LAST:event_CPFFieldKeyReleased
-
     private void passwordFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldKeyReleased
         // TODO add your handling code here:
         this.setUpdateButtonVisibilty();
     }//GEN-LAST:event_passwordFieldKeyReleased
 
+    private void numberFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_numberFieldKeyReleased
+        // TODO add your handling code here:
+        this.setUpdateButtonVisibilty();
+    }//GEN-LAST:event_numberFieldKeyReleased
+
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         // TODO add your handling code here:
-        if (!(nameField.getText().isEmpty() || userIdField.getText().isEmpty() || CPFField.getText().isEmpty() || passwordField.getText().isEmpty())) {
-            DefaultListModel listModel = (DefaultListModel) customerList.getModel();
-            Customer customer = (Customer) listModel.get(customerList.getSelectedIndex());
-            customer.setName(nameField.getText());
-            customer.setUserId(userIdField.getText());
-            customer.setCPF(CPFField.getText());
-            customer.setPassword(passwordField.getText());
-            CustomerServices.updateCustomers(customer);
-            int index = customerList.getSelectedIndex();
-            customerList.setModel(CustomerServices.searchCustomerDatabase(""));
-            updateButton.setVisible(false);
-            customerList.setSelectedIndex(index);
+        try {
+            String name = nameField.getText();
+            String userId = userIdField.getText();
+            String password = passwordField.getText();
+            String telephone = numberField.getText();
+            String address = addressField.getText();
+            if (!(name.isEmpty() || name.isEmpty() || userId.isEmpty() || password.isEmpty())) {
+                DefaultListModel listModel = (DefaultListModel) customerList.getModel();
+                Customer customer = (Customer) listModel.getElementAt(customerList.getSelectedIndex());
+                
+                CustomerServices.updateUser(new Customer(name,userId,customer.getCPF(),password,telephone,address));
+                customer.setName(name);
+                customer.setUserId(userId);
+                customer.setPassword(password);
+                customer.setTelephone(telephone);
+                customer.setAddress(address);
+                int index = customerList.getSelectedIndex();
+                customerList.setModel(CustomerServices.searchCustomerDatabase());
+                customerList.setSelectedIndex(index);
+                updateButton.setVisible(false);
+            }
+        } catch (Exception_Data e) {
+            Warning warning = new Warning(e.getMessage());
+            warning.setVisible(true);
         }
     }//GEN-LAST:event_updateButtonActionPerformed
+
+    private void profileButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileButtonMouseClicked
+        // TODO add your handling code here:
+        AdministratorProfile administratorProfile = new AdministratorProfile(this.administrator);
+        administratorProfile.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_profileButtonMouseClicked
+
+    private void addressFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addressFieldActionPerformed
+
+    private void addressFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_addressFieldKeyReleased
+        // TODO add your handling code here:
+        this.setUpdateButtonVisibilty();
+    }//GEN-LAST:event_addressFieldKeyReleased
 
     /**
      * @param args the command line arguments
@@ -461,19 +552,22 @@ public class AdministratorCustomer extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField CPFField;
     private javax.swing.JLabel aboutButton;
+    private javax.swing.JTextField addressField;
     private javax.swing.JList<String> customerList;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel logOutButton;
     private javax.swing.JLabel logoTop;
     private javax.swing.JTextField nameField;
+    private javax.swing.JTextField numberField;
     private javax.swing.JTextField passwordField;
     private javax.swing.JLabel profileButton;
     private javax.swing.JScrollPane scrollPane;

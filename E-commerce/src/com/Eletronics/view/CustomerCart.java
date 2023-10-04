@@ -1,26 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.Eletronics.view;
 
-import com.Eletronics.model.Cart;
 import com.Eletronics.model.Customer;
 import com.Eletronics.model.Item;
-import com.Eletronics.services.CustomRendererTwo;
+import com.Eletronics.services.CartServices;
+import com.Eletronics.services.renderers.CustomRendererTwo;
+import com.Eletronics.services.tools.Warning;
+import com.Eletronics.services.CustomerServices;
+import com.Eletronics.services.ItemServices;
 import java.awt.Color;
 import javax.swing.DefaultListModel;
 
-/**
- *
- * @author pedro
- */
 public class CustomerCart extends javax.swing.JFrame {
     private Customer customer;
     private boolean visible;
-    /**
-     * Creates new form AdministratorManagement
-     */
+    
     public CustomerCart() {
         super("ELETRONICS");
         visible = false;
@@ -30,9 +23,9 @@ public class CustomerCart extends javax.swing.JFrame {
         cartList.setCellRenderer(new CustomRendererTwo());
         logoTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/logoTop.png")));
         deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/trashIcon.png")));
-        cartList.setModel(Cart.getCart("pedroxcav"));
+        cartList.setModel(CartServices.getCart("pedroxcav"));
         updateButton.setVisible(false);
-        priceField.setText("R$ "+Cart.getTotalPrice(cartList));
+        priceField.setText("R$ "+CartServices.getTotalPrice(cartList));
     }
     
     public CustomerCart(Customer customer) {
@@ -44,9 +37,9 @@ public class CustomerCart extends javax.swing.JFrame {
         cartList.setCellRenderer(new CustomRendererTwo());
         logoTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/logoTop.png")));
         deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/trashIcon.png")));
-        cartList.setModel(Cart.getCart(customer.getUserId()));
+        cartList.setModel(CartServices.getCart(customer.getUserId()));
         updateButton.setVisible(false);
-        priceField.setText("R$ "+Cart.getTotalPrice(cartList));
+        priceField.setText("R$ "+CartServices.getTotalPrice(cartList));
         this.customer = customer;
     }
     
@@ -108,6 +101,9 @@ public class CustomerCart extends javax.swing.JFrame {
         profileButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         profileButton.setText("MEU PERFIL");
         profileButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                profileButtonMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 profileButtonMouseEntered(evt);
             }
@@ -403,7 +399,7 @@ public class CustomerCart extends javax.swing.JFrame {
     private void cartListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cartListMouseClicked
         // TODO add your handling code here:
         if (cartList.getModel().getSize() != 0) {
-            nameField.setText(Cart.selectItem(cartList, nameField));
+            nameField.setText(CustomerServices.selectItem(cartList, nameField));
             quantityField.setText("Alterar");
             updateButton.setVisible(false);
         }
@@ -443,12 +439,12 @@ public class CustomerCart extends javax.swing.JFrame {
         Item item = (Item) listModel.getElementAt(cartList.getSelectedIndex());
         item.setQuantity(Integer.parseInt(quantityField.getText()));
         
-        Cart.updateItem(item);
+        ItemServices.updateItem(item);
         
         quantityField.setText("Alterar");
         updateButton.setVisible(false);
-        cartList.setModel(Cart.getCart(this.customer.getUserId()));
-        priceField.setText("R$ "+Cart.getTotalPrice(cartList));
+        cartList.setModel(CartServices.getCart(this.customer.getUserId()));
+        priceField.setText("R$ "+CartServices.getTotalPrice(cartList));
         nameField.setText("SELECIONE");
     }//GEN-LAST:event_updateButtonActionPerformed
 
@@ -457,19 +453,24 @@ public class CustomerCart extends javax.swing.JFrame {
         if (cartList.getSelectedIndex() != -1) {
             DefaultListModel listModel = (DefaultListModel) cartList.getModel();
             Item item = (Item) listModel.getElementAt(cartList.getSelectedIndex());
-
-            Cart.deleteItem(item);
-
+            ItemServices.deleteItem(item);
             quantityField.setText("Alterar");
             updateButton.setVisible(false);
-            cartList.setModel(Cart.getCart(this.customer.getUserId()));
-            priceField.setText("R$ "+Cart.getTotalPrice(cartList));
+            cartList.setModel(CartServices.getCart(this.customer.getUserId()));
+            priceField.setText("R$ "+CartServices.getTotalPrice(cartList));
             nameField.setText("SELECIONE");
         } else {
             Warning warning = new Warning("Selecione um item!");
             warning.setVisible(true);
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void profileButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileButtonMouseClicked
+        // TODO add your handling code here:
+        CustomerProfile customerProfile = new CustomerProfile(this.customer);
+        customerProfile.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_profileButtonMouseClicked
 
     /**
      * @param args the command line arguments

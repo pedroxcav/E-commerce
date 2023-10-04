@@ -2,10 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.Eletronics.services;
+package com.Eletronics.services.tools;
 
-import com.Eletronics.model.Item;
-import com.Eletronics.model.Product;
+import com.Eletronics.services.*;
 import java.util.Random;
 
 /**
@@ -55,7 +54,7 @@ public class RandomGenerator {
             for (int i=0; i<4; i++){
                 id += ra.nextInt(10);
             }
-        } while (Item.verifyItem(id));
+        } while (ItemServices.verifyItem(id));
         return id;
     }
 }

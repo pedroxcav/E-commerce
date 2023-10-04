@@ -1,10 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.Eletronics.services;
+package com.Eletronics.services.renderers;
 
-import com.Eletronics.model.Item;
+import com.Eletronics.model.Product;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
@@ -13,16 +9,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-/**
- *
- * @author pedro
- */
-public class CustomRendererTwo extends DefaultListCellRenderer implements ListCellRenderer<Object> {
+public class CustomRendererOne extends DefaultListCellRenderer implements ListCellRenderer<Object> {
     @Override
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean hasFocus) {
-        Item item = (Item) value;
-        setText(item.getQuantity()+" x "+item.getProduct().getPrice()+" = R$"+item.getPrice());
-        Image image = item.getProduct().getImage().getScaledInstance(46, 60, Image.SCALE_SMOOTH);
+        Product product = (Product) value;
+        setText(product.getName().toUpperCase());
+        Image image = product.getImage().getScaledInstance(46, 60, Image.SCALE_SMOOTH);
         setIcon(new ImageIcon(image));
         setIconTextGap(10);
         

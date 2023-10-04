@@ -4,10 +4,11 @@
  */
 package com.Eletronics.view;
 
-import com.Eletronics.model.Cart;
 import com.Eletronics.model.Customer;
 import com.Eletronics.model.Product;
+import com.Eletronics.services.CustomerServices;
 import com.Eletronics.services.ProductServices;
+import com.Eletronics.services.tools.Warning;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 
@@ -120,6 +121,9 @@ public class CustomerProduct extends javax.swing.JFrame {
         profileButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         profileButton.setText("MEU PERFIL");
         profileButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                profileButtonMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 profileButtonMouseEntered(evt);
             }
@@ -440,7 +444,7 @@ public class CustomerProduct extends javax.swing.JFrame {
     private void addbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addbuttonActionPerformed
         // TODO add your handling code here:
         if (!quantityField.getText().equals("Selecionar")) {
-            Cart.addProduct(this.customer, idField.getText(), Integer.parseInt(quantityField.getText()));
+            CustomerServices.addToCart(this.customer, idField.getText(), Integer.parseInt(quantityField.getText()));
             quantityField.setText("Selecionar");
         } else {
             Warning warning = new Warning("Selecione uma quantidade!");
@@ -464,6 +468,13 @@ public class CustomerProduct extends javax.swing.JFrame {
         customerCart.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_cartButtonMouseClicked
+
+    private void profileButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileButtonMouseClicked
+        // TODO add your handling code here:
+        CustomerProfile customerProfile = new CustomerProfile(this.customer);
+        customerProfile.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_profileButtonMouseClicked
 
     /**
      * @param args the command line arguments

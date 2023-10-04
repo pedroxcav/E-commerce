@@ -1,25 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.Eletronics.services;
+package com.Eletronics.services.renderers;
 
-import com.Eletronics.model.Customer;
+import com.Eletronics.model.Administrator;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-/**
- *
- * @author pedro
- */
-public class CustomRendererFive extends DefaultListCellRenderer implements ListCellRenderer<Object> {
+public class CustomRendererFor extends DefaultListCellRenderer implements ListCellRenderer<Object> {
     @Override
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean hasFocus) {
-        Customer customer = (Customer) value;
-        setText(customer.getName()+" ("+customer.getUserId()+")");
+        Administrator administrator = (Administrator) value;
+        setText(administrator.getName()+" ("+administrator.getUserId()+")");
         
         if (isSelected){
             setBackground(new Color(55, 105, 140));

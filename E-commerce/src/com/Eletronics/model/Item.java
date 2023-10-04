@@ -1,20 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.Eletronics.model;
 
-import com.Eletronics.repository.ConexaoBD;
-import com.Eletronics.services.Exception_Data;
-import com.Eletronics.services.RandomGenerator;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import com.Eletronics.services.tools.RandomGenerator;
 
-/**
- *
- * @author pedro
- */
 public class Item {
     private String itemId;
     private String userId;
@@ -36,20 +23,6 @@ public class Item {
         this.product = product;
         this.quantity = quantity;
         this.price = price;
-    }
-    
-    public static boolean verifyItem(String id){
-        ConexaoBD cbd = new ConexaoBD();
-        try (Connection c = cbd.obtemConexao()) {
-            String sql = "select id from cart where id = ?";
-            PreparedStatement ps = c.prepareStatement(sql);
-            ps.setString(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) throw new Exception_Data();
-            else return false;
-        } catch (Exception e) {
-            return true;
-        }
     }
     
     public String getItemId() {

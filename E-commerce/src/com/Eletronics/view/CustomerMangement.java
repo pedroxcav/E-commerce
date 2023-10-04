@@ -1,30 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.Eletronics.view;
 
 import com.Eletronics.model.Customer;
 import com.Eletronics.services.ProductServices;
 import java.awt.Color;
-import com.Eletronics.services.CustomRendererOne;
+import com.Eletronics.services.renderers.CustomRendererOne;
 
-/**
- *
- * @author pedro
- */
 public class CustomerMangement extends javax.swing.JFrame {
     private Customer customer;
-    /**
-     * Creates new form AdministratorManagement
-     */
+    
     public CustomerMangement() {
         super("ELETRONICS");
         initComponents();
         getContentPane().setBackground(Color.WHITE);
         productList.setCellRenderer(new CustomRendererOne());
         logoTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/logoTop.png")));
-        productList.setModel(ProductServices.searchProductDatabase(searchField.getText()));
+        productList.setModel(ProductServices.getDatabase(searchField.getText()));
     }
     
     public CustomerMangement(Customer customer) {
@@ -33,7 +23,7 @@ public class CustomerMangement extends javax.swing.JFrame {
         getContentPane().setBackground(Color.WHITE);
         productList.setCellRenderer(new CustomRendererOne());
         logoTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/logoTop.png")));
-        productList.setModel(ProductServices.searchProductDatabase(searchField.getText()));
+        productList.setModel(ProductServices.getDatabase(searchField.getText()));
         this.customer = customer;
     }
 
@@ -85,6 +75,9 @@ public class CustomerMangement extends javax.swing.JFrame {
         profileButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         profileButton.setText("MEU PERFIL");
         profileButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                profileButtonMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 profileButtonMouseEntered(evt);
             }
@@ -295,7 +288,7 @@ public class CustomerMangement extends javax.swing.JFrame {
 
     private void searchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyReleased
         // TODO add your handling code here:
-        productList.setModel(ProductServices.searchProductDatabase(searchField.getText()));
+        productList.setModel(ProductServices.getDatabase(searchField.getText()));
     }//GEN-LAST:event_searchFieldKeyReleased
 
     private void productListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productListMouseClicked
@@ -320,6 +313,13 @@ public class CustomerMangement extends javax.swing.JFrame {
         // TODO add your handling code here:
         cartButton.setForeground(Color.LIGHT_GRAY);
     }//GEN-LAST:event_cartButtonMouseExited
+
+    private void profileButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileButtonMouseClicked
+        // TODO add your handling code here:
+        CustomerProfile customerProfile = new CustomerProfile(this.customer);
+        customerProfile.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_profileButtonMouseClicked
 
     /**
      * @param args the command line arguments

@@ -5,6 +5,8 @@
 package com.Eletronics.view;
 
 import com.Eletronics.model.Administrator;
+import com.Eletronics.services.AdministratorServices;
+import com.Eletronics.services.tools.Warning;
 import java.awt.Color;
 
 /**
@@ -214,9 +216,12 @@ public class AdministratorLogin extends javax.swing.JFrame {
         } else {
             Administrator administrator = new Administrator();
             if (administrator.logInto(userId, password)){
-                AdministratorMangement administratorMangement = new AdministratorMangement();
+                AdministratorMangement administratorMangement = new AdministratorMangement(AdministratorServices.getUser(userIdField.getText()));
                 administratorMangement.setVisible(true);
                 this.dispose();
+            } else {
+                Warning warning = new Warning("Acesso incorreto.");
+                warning.setVisible(true);
             }
         }
         userIdField.setText("");

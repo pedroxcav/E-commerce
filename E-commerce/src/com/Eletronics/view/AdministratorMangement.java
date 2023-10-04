@@ -1,13 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.Eletronics.view;
 
+import com.Eletronics.model.Administrator;
 import com.Eletronics.model.Product;
-import com.Eletronics.services.CustomRendererThree;
-import com.Eletronics.services.Exception_Data;
+import com.Eletronics.services.renderers.CustomRendererThree;
+import com.Eletronics.services.exceptions.Exception_Data;
 import com.Eletronics.services.ProductServices;
+import com.Eletronics.services.tools.Warning;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -17,15 +15,10 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 
-/**
- *
- * @author pedro
- */
 public class AdministratorMangement extends javax.swing.JFrame {
-    BufferedImage image;
-    /**
-     * Creates new form AdministratorProduct
-     */
+    private BufferedImage image;
+    private Administrator administrator;
+    
     public AdministratorMangement() {
         super("ELETRONICS");
         initComponents();
@@ -34,7 +27,24 @@ public class AdministratorMangement extends javax.swing.JFrame {
         productList.setCellRenderer(new CustomRendererThree());
         logoTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/logoTop.png")));
         imageField.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/noProduct.png")));
-        productList.setModel(ProductServices.searchProductDatabase(""));
+        productList.setModel(ProductServices.getDatabase());
+        if (productList.getModel().getSize() != 0) {;
+            productList.setSelectedIndex(0);
+            this.productListClicked();
+        }
+        updateButton.setVisible(false);
+    }
+    
+    public AdministratorMangement(Administrator administrator) {
+        super("ELETRONICS");
+        initComponents();
+        this.administrator = administrator;
+        selectImage.setVisible(false);
+        getContentPane().setBackground(Color.WHITE);
+        productList.setCellRenderer(new CustomRendererThree());
+        logoTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/logoTop.png")));
+        imageField.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/Eletronics/view/midias/noProduct.png")));
+        productList.setModel(ProductServices.getDatabase());
         if (productList.getModel().getSize() != 0) {;
             productList.setSelectedIndex(0);
             this.productListClicked();
@@ -98,6 +108,9 @@ public class AdministratorMangement extends javax.swing.JFrame {
         profileButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         profileButton.setText("MEU PERFIL");
         profileButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                profileButtonMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 profileButtonMouseEntered(evt);
             }
@@ -218,11 +231,11 @@ public class AdministratorMangement extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addComponent(profileButton)
                 .addGap(40, 40, 40)
-                .addComponent(productButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(customerButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(administratorButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(productButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(logOutButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -232,11 +245,11 @@ public class AdministratorMangement extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Nortar", 0, 36)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setText("PRODUTO");
+        jLabel4.setText("ELETRONICS");
 
         jLabel5.setFont(new java.awt.Font("Nortar", 1, 11)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setText("AREA");
+        jLabel5.setText("STORE");
 
         scrollPane.setBackground(new java.awt.Color(255, 255, 255));
         scrollPane.setBorder(null);
@@ -436,7 +449,7 @@ public class AdministratorMangement extends javax.swing.JFrame {
                 if (image != null) product.setImage(image);
                 ProductServices.updateProducts(product);
                 int index = productList.getSelectedIndex();
-                productList.setModel(ProductServices.searchProductDatabase(""));
+                productList.setModel(ProductServices.getDatabase());
                 updateButton.setVisible(false);
                 productList.setSelectedIndex(index);
             }
@@ -457,7 +470,7 @@ public class AdministratorMangement extends javax.swing.JFrame {
             Product product = (Product) listModel.getElementAt(productList.getSelectedIndex());
             ProductServices.deleteProduct(product);
             
-            productList.setModel(ProductServices.searchProductDatabase(""));
+            productList.setModel(ProductServices.getDatabase());
             if (productList.getModel().getSize() != 0){
                 productList.setSelectedIndex(0);
                 this.productListClicked();
@@ -523,7 +536,7 @@ public class AdministratorMangement extends javax.swing.JFrame {
 
     private void productButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productButtonMouseClicked
         // TODO add your handling code here:
-        AdministratorProduct administratorProduct = new AdministratorProduct();
+        AdministratorProduct administratorProduct = new AdministratorProduct(this.administrator);
         administratorProduct.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_productButtonMouseClicked
@@ -557,7 +570,7 @@ public class AdministratorMangement extends javax.swing.JFrame {
 
     private void customerButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_customerButtonMouseClicked
         // TODO add your handling code here:
-        AdministratorCustomer administratorCustomer = new AdministratorCustomer();
+        AdministratorCustomer administratorCustomer = new AdministratorCustomer(this.administrator);
         administratorCustomer.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_customerButtonMouseClicked
@@ -584,10 +597,17 @@ public class AdministratorMangement extends javax.swing.JFrame {
 
     private void administratorButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_administratorButtonMouseClicked
         // TODO add your handling code here:
-        AdministratorProfiles administratorProfiles = new AdministratorProfiles();
-        administratorProfiles.setVisible(true);
+        AdministratorManagers administratorManagers = new AdministratorManagers(this.administrator);
+        administratorManagers.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_administratorButtonMouseClicked
+
+    private void profileButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileButtonMouseClicked
+        // TODO add your handling code here:
+        AdministratorProfile administratorProfile = new AdministratorProfile(this.administrator);
+        administratorProfile.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_profileButtonMouseClicked
 
     /**
      * @param args the command line arguments

@@ -5,7 +5,8 @@
 package com.Eletronics.view;
 
 import com.Eletronics.model.Customer;
-import com.Eletronics.services.RandomGenerator;
+import com.Eletronics.services.tools.RandomGenerator;
+import com.Eletronics.services.tools.Warning;
 import java.awt.Color;
 
 /**

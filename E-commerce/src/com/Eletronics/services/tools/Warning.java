@@ -1,8 +1,7 @@
 package com.Eletronics.services.tools;
 
-import com.Eletronics.view.*;
-import com.Eletronics.model.Customer;
-import com.Eletronics.services.CustomerServices;
+import com.Eletronics.model.Cliente;
+import com.Eletronics.services.ClienteServices;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -31,13 +30,13 @@ public class Warning extends javax.swing.JFrame {
         if (function == 0)
             return true;
         else if (!(text.length()<3)) {
-            Customer customer = CustomerServices.getUser("recrutador");
+            //Cliente cliente = ClienteServices.getUser("recrutador");
             if (function == 1){
-                CustomerMangement products = new CustomerMangement(customer);
-                products.setVisible(true);
+                //CustomerMangement products = new CustomerMangement(customer);
+                //products.setVisible(true);
             } else {
-                AdministratorMangement administratorMangement = new AdministratorMangement();
-                administratorMangement.setVisible(true);
+                //AdministratorMangement administratorMangement = new AdministratorMangement();
+                //administratorMangement.setVisible(true);
             }
             return true;
         }

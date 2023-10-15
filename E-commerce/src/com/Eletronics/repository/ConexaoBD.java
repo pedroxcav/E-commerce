@@ -1,5 +1,6 @@
 package com.Eletronics.repository;
 
+import com.Eletronics.services.tools.Warning;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -16,7 +17,8 @@ public class ConexaoBD {
             Connection c = DriverManager.getConnection ("jdbc:mysql://"+host+":"+porta+"/"+ bd,usuario,senha);
             return c;
         } catch (SQLException e){
-            System.out.println("Banco de dados [ERRO]");
+            Warning warning = new Warning("Erro de conexão.");
+            warning.setVisible(true);
             return null;
         }
     }

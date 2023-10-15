@@ -37,4 +37,13 @@ public class EnderecoServices {
             warning.setVisible(true);
         }
     }
+    
+    public static void registrar(Endereco endereco) {
+        try {
+            EnderecoDAO.registrar(endereco);
+        } catch (SQLException e) {
+            Warning warning = new Warning("Erro ao salvar.");
+            warning.setVisible(true);
+        }
+    }
 }

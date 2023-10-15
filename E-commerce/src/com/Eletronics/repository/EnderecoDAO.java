@@ -62,4 +62,20 @@ public class EnderecoDAO {
             ps.execute();
         }
     }
+    
+    public static void registrar(Endereco endereco) throws SQLException {
+        ConexaoBD cbd = new ConexaoBD();
+        try (Connection c = cbd.obtemConexao()) {
+            String sql = "insert into endereco values (?,?,?,?,?,?,?);";
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setString(1, endereco.getID_Endereco());
+            ps.setString(2, endereco.getID_Cliente());
+            ps.setString(3, endereco.getCEP());
+            ps.setString(4, endereco.getRua());
+            ps.setString(5, endereco.getNumero());
+            ps.setString(6, endereco.getBairro());
+            ps.setString(7, endereco.getCidade());
+            ps.execute();
+        }
+    }
 }

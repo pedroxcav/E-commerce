@@ -1,5 +1,6 @@
 package com.Eletronics.repository;
 
+import com.Eletronics.model.Cliente;
 import com.Eletronics.model.Compra;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,6 +27,23 @@ public class CompraDAO {
             ps.setString(1, compra.getID_Compra());
             ps.setString(2, compra.getID_Cliente());
             ps.execute();
+        }
+    }
+    
+    public static Compra trazerCompra(Cliente cliente) throws SQLException {
+        ConexaoBD cbd = new ConexaoBD();
+        try (Connection c = cbd.obtemConexao()) {
+            Compra compra = null;
+            String sql = "select * from compra where id_Cliente = ?";
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setString(1, cliente.getID());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String ID_Compra = rs.getString("id_Compra");
+                String ID_Cliente = rs.getString("id_Cliente");
+                compra = new Compra(ID_Compra, ID_Cliente);
+            }
+            return compra;
         }
     }
 }

@@ -292,24 +292,21 @@ public class ClienteCarrinho extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(jLabel5))
                 .addGap(75, 75, 75)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Campo_Nome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(Campo_Quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(scrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(finalizePurchase, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Campo_Valor)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(atualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(excluir, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 89, Short.MAX_VALUE))
-                    .addComponent(JLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(JLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(Campo_Nome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(JLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(JLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Campo_Quantidade, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(scrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                    .addComponent(finalizePurchase, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                    .addComponent(Campo_Valor, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(atualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(excluir, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(95, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -392,10 +389,12 @@ public class ClienteCarrinho extends javax.swing.JFrame {
 
     private void Campo_ListaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Campo_ListaMouseClicked
         // TODO add your handling code here:
-        DefaultListModel modelo = (DefaultListModel) Campo_Lista.getModel();
-        Pedido pedido = (Pedido) modelo.getElementAt(Campo_Lista.getSelectedIndex());
-        Campo_Nome.setText(pedido.getProduto().getNome().toUpperCase());
-        atualizar.setVisible(false);
+        if (Campo_Lista.getModel().getSize() > 0) {
+            DefaultListModel modelo = (DefaultListModel) Campo_Lista.getModel();
+            Pedido pedido = (Pedido) modelo.getElementAt(Campo_Lista.getSelectedIndex());
+            Campo_Nome.setText(pedido.getProduto().getNome().toUpperCase());
+            atualizar.setVisible(false);
+        }
     }//GEN-LAST:event_Campo_ListaMouseClicked
 
     private void Campo_QuantidadeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Campo_QuantidadeMouseClicked
@@ -415,6 +414,14 @@ public class ClienteCarrinho extends javax.swing.JFrame {
 
     private void finalizePurchaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finalizePurchaseActionPerformed
         // TODO add your handling code here:
+        if (Campo_Lista.getModel().getSize() > 0) {
+            ClienteEndereco clienteEndereco = new ClienteEndereco(this.cliente);
+            clienteEndereco.setVisible(true);
+            this.dispose();
+        } else {
+            Warning warning = new Warning("Adicione algum item.");
+            warning.setVisible(true);
+        }
     }//GEN-LAST:event_finalizePurchaseActionPerformed
 
     private void Campo_Lista2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Campo_Lista2MouseClicked

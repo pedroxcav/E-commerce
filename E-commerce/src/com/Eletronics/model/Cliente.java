@@ -29,7 +29,8 @@ public class Cliente extends Usuario {
             Compra compra = new Compra(GeradorAleatorio.gerarCompraID(), cliente.getID());
             CompraServices.regitsrar(compra);
         } catch (Exception_Cadastro e) {
-            System.out.println(e.getMessage());
+            Warning warning = new Warning(e.getMessage());
+            warning.setVisible(true);
         } catch (SQLException e) {
             Warning warning = new Warning("Erro ao cadastrar.");
             warning.setVisible(true);

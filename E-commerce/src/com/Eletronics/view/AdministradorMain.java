@@ -630,6 +630,9 @@ public class AdministradorMain extends javax.swing.JFrame {
 
     private void salesButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salesButtonMouseClicked
         // TODO add your handling code here:
+        AdministradorVendas administradorVendas = new AdministradorVendas(this.administrador);
+        administradorVendas.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_salesButtonMouseClicked
 
     /**

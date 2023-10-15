@@ -43,7 +43,7 @@ public class CarrinhoServices {
     public static double definirValortotal(JList Campo_Lista) {
         double totalPrice = 0;
         DefaultListModel listModel = (DefaultListModel) Campo_Lista.getModel();
-        for (int i=0; i < listModel.getSize(); i++){
+        for (int i=0; i < listModel.getSize(); i++) {
             Pedido pedido = (Pedido) listModel.getElementAt(i);
             totalPrice += pedido.getValor();
         }

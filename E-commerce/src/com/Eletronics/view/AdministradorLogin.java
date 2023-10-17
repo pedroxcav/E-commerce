@@ -184,6 +184,9 @@ public class AdministradorLogin extends javax.swing.JFrame {
 
     private void RecruiterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RecruiterButtonActionPerformed
         // TODO add your handling code here:
+        Warning warning = new Warning(2);
+        warning.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_RecruiterButtonActionPerformed
 
     private void Campo_IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Campo_IDActionPerformed
@@ -239,25 +242,22 @@ public class AdministradorLogin extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdministradorLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdministradorLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdministradorLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(AdministradorLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AdministradorLogin().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new AdministradorLogin().setVisible(true);
         });
     }
 

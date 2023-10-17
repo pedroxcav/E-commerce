@@ -23,7 +23,7 @@ public class EnderecoDAO {
     public static DefaultListModel trazerEnderecos(Cliente cliente) throws SQLException {
         ConexaoBD cbd = new ConexaoBD();
         try (Connection c = cbd.obtemConexao()){
-            String sql = "select * from endereco where id_Cliente = '"+cliente.getID()+"'";
+            String sql = "select * from endereco where id_Cliente = '"+cliente.getID()+"' and ativo = true";
             PreparedStatement ps = c.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             DefaultListModel modelo = new DefaultListModel();
@@ -57,7 +57,7 @@ public class EnderecoDAO {
     public static void excluir(Endereco endereco) throws SQLException {
         ConexaoBD cbd = new ConexaoBD();
         try (Connection c =  cbd.obtemConexao()) {
-            String sql = "delete from endereco where id_Endereco = '"+endereco.getID_Endereco()+"'";
+            String sql = "update endereco set ativo = false where id_Endereco = '"+endereco.getID_Endereco()+"'";
             PreparedStatement ps = c.prepareStatement(sql);
             ps.execute();
         }
@@ -66,7 +66,7 @@ public class EnderecoDAO {
     public static void registrar(Endereco endereco) throws SQLException {
         ConexaoBD cbd = new ConexaoBD();
         try (Connection c = cbd.obtemConexao()) {
-            String sql = "insert into endereco values (?,?,?,?,?,?,?);";
+            String sql = "insert into endereco (id_Endereco, id_Cliente, CEP, rua, numero, bairro, cidade) values (?,?,?,?,?,?,?);";
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setString(1, endereco.getID_Endereco());
             ps.setString(2, endereco.getID_Cliente());

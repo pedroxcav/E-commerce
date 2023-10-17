@@ -56,13 +56,6 @@ public class ClienteEndereco extends javax.swing.JFrame {
         }
     }
     
-    private void fecharCompra(Endereco endereco) {
-        CompraServices.comprar(cliente, endereco);
-        ClienteCarrinho clienteCarrinho =  new ClienteCarrinho(this.cliente);
-        clienteCarrinho.setVisible(true);
-        this.dispose();
-    }
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -418,7 +411,7 @@ public class ClienteEndereco extends javax.swing.JFrame {
             String bairro = Campo_Bairro.getText();
             String cidade = Campo_Cidade.getText();
             
-            if (CEP.isEmpty() || rua.isEmpty() || numero.isEmpty() || bairro.isEmpty() || cidade.isEmpty()) {
+            if (CEP.length() != 8 || rua.isEmpty() || numero.isEmpty() || bairro.isEmpty() || cidade.isEmpty()) {
                 Warning warning = new Warning("Dados incorretos.");
                 warning.setVisible(true);
                 
@@ -430,12 +423,30 @@ public class ClienteEndereco extends javax.swing.JFrame {
             } else {
                 Endereco endereco = new Endereco(this.cliente.getID(), CEP, rua, numero, bairro, cidade);
                 EnderecoServices.registrar(endereco);
-                this.fecharCompra(endereco);
+                Campo_Lista.setModel(EnderecoServices.trazerEnderecos(cliente));
+                
+                cadastrar = false;
+            
+                novo.setText("NOVO LOCAL");
+                Campo_Texto.setText("DADOS");
+                selecionar.setText("ENTREGAR");
+                
+                Campo_Lista.setSelectedIndex(0);
+                this.selecionar();
+                
+                Campo_CEP.setEditable(false);
+                Campo_Rua.setEditable(false);
+                Campo_Numero.setEditable(false);
+                Campo_Bairro.setEditable(false);
+                Campo_Cidade.setEditable(false);
             }
         } else if (Campo_Lista.getSelectedIndex() != -1) {
             DefaultListModel modelo = (DefaultListModel) Campo_Lista.getModel();
             Endereco endereco = (Endereco) modelo.getElementAt(Campo_Lista.getSelectedIndex());
-            this.fecharCompra(endereco);
+            CompraServices.comprar(cliente, endereco);
+            ClienteCarrinho clienteCarrinho = new ClienteCarrinho(this.cliente);
+            clienteCarrinho.setVisible(true);
+            this.dispose();
         } else {
             Warning warning = new Warning("Selecione algum local.");
             warning.setVisible(true);
@@ -482,13 +493,7 @@ public class ClienteEndereco extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ClienteEndereco.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ClienteEndereco.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ClienteEndereco.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ClienteEndereco.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -499,12 +504,19 @@ public class ClienteEndereco extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ClienteEndereco().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new ClienteEndereco().setVisible(true);
         });
     }
 

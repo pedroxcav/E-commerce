@@ -241,6 +241,9 @@ public class ClienteLogin extends javax.swing.JFrame {
 
     private void entrarRecrutadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarRecrutadorActionPerformed
         // TODO add your handling code here:
+        Warning warning = new Warning(1);
+        warning.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_entrarRecrutadorActionPerformed
 
     private void entrarAdmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarAdmActionPerformed
@@ -306,25 +309,22 @@ public class ClienteLogin extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ClienteLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ClienteLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ClienteLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ClienteLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ClienteLogin().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new ClienteLogin().setVisible(true);
         });
     }
 

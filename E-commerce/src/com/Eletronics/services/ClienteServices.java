@@ -1,9 +1,7 @@
 package com.Eletronics.services;
 
-import com.Eletronics.model.Administrador;
 import com.Eletronics.model.Cliente;
 import com.Eletronics.model.Usuario;
-import com.Eletronics.repository.AdministradorDAO;
 import com.Eletronics.repository.ClienteDAO;
 import com.Eletronics.services.exceptions.Exception_Cadastro;
 import com.Eletronics.services.tools.Warning;

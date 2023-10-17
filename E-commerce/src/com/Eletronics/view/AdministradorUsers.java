@@ -426,8 +426,7 @@ public class AdministradorUsers extends javax.swing.JFrame {
             Warning warning = new Warning("Dados incorretos.");
             warning.setVisible(true);
         } else {
-            Administrador administrador = new Administrador(ID_Administrador, nome, CPF, senha);
-            administrador.registar(administrador);
+            administrador.registar(new Administrador(ID_Administrador, nome, CPF, senha));
             Campo_Lista.setModel(AdministradorServices.trazerAdministradores());
         }
         Campo_Nome.setText("");
@@ -452,9 +451,8 @@ public class AdministradorUsers extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (Campo_Lista.getSelectedIndex() != -1) {
             DefaultListModel modelo = (DefaultListModel) Campo_Lista.getModel();
-            Administrador administrador = (Administrador) modelo.getElementAt(Campo_Lista.getSelectedIndex());
             
-            AdministradorServices.excluir(administrador);
+            AdministradorServices.excluir((Administrador) modelo.getElementAt(Campo_Lista.getSelectedIndex()));
             
             Campo_Lista.setModel(AdministradorServices.trazerAdministradores());
             Campo_Nome.setText("");
@@ -501,13 +499,7 @@ public class AdministradorUsers extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdministradorUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdministradorUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdministradorUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(AdministradorUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -542,12 +534,43 @@ public class AdministradorUsers extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AdministradorUsers().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new AdministradorUsers().setVisible(true);
         });
     }
 

@@ -224,7 +224,6 @@ public class AdministradorVendas extends javax.swing.JFrame {
         Campo_Lista2.setBackground(new java.awt.Color(255, 255, 255));
         Campo_Lista2.setBorder(null);
         Campo_Lista2.setForeground(new java.awt.Color(0, 0, 0));
-        Campo_Lista2.setFixedCellHeight(30);
         scrollPane2.setViewportView(Campo_Lista2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -362,13 +361,7 @@ public class AdministradorVendas extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdministradorVendas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdministradorVendas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdministradorVendas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(AdministradorVendas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -379,12 +372,19 @@ public class AdministradorVendas extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AdministradorVendas().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new AdministradorVendas().setVisible(true);
         });
     }
 

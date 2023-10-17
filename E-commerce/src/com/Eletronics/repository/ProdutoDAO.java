@@ -45,7 +45,7 @@ public class ProdutoDAO {
     public static DefaultListModel trazerProdutos(String text) throws SQLException, IOException {
         ConexaoBD cbd = new ConexaoBD();
         try (Connection c = cbd.obtemConexao()){
-            String sql = "select * from produto where nome like '"+text+"%'";
+            String sql = "select * from produto where nome like '"+text+"%' and ativo = true";
             PreparedStatement ps = c.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             DefaultListModel modelo = new DefaultListModel();
@@ -95,7 +95,7 @@ public class ProdutoDAO {
     public static void excluir(Produto produto) throws SQLException {
         ConexaoBD cbd = new ConexaoBD();
         try (Connection c = cbd.obtemConexao()) {
-            String sql = "delete from produto where id_Produto = '"+produto.getID_Produto()+"'";
+            String sql = "update produto set ativo = false where id_Produto = '"+produto.getID_Produto()+"'";
             PreparedStatement ps = c.prepareStatement(sql);
             ps.execute();
         }
